@@ -18,7 +18,7 @@ create table user_id (
 create table contaminated (
     user_id int,
     contaminated_at date,
-    constraint fk_friend foreign key (user_id) references user_id(user_id)
+    constraint fk_contaminated foreign key (user_id) references user_id(user_id)
 );
 
 create table activity (

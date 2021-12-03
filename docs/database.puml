@@ -1,0 +1,60 @@
+@startuml
+
+title "Database Class Diagram"
+
+class user {
+    + firstname (text)
+    + lastname (text)
+    - email (varchar(512))
+    + password_hash (text)
+    + born (date)
+    + level (int)
+}
+
+class user_id {
+    - user_id (int auto_increment)
+    # email (varchar(512))
+}
+
+class contaminated {
+    # user_id (int)
+    + contaminated_at (date)
+}
+
+class activity {
+    - activity_id (int auto_increment)
+    + start_at (date)
+    + end_at (date)
+    + city (text)
+}
+
+class user_activity {
+    # user_id (int)
+    # activity_id (int)
+}
+
+class friends {
+    # user_1 (int)
+    # user_2 (int)
+}
+
+class notification {
+    - notification_id (int auto_increment)
+    + content (text)
+}
+
+class user_notification {
+    # notification_id (int)
+    # user_id (int)
+}
+
+user "email" *-- "email" user_id: fk_user_email
+user_id "user_id" *-left- "user_id" contaminated: fk_contaminated
+user_id "user_id" *-right- "user_id" user_activity: fk_user_id_user_activity
+activity "activity_id" *-- "activity_id" user_activity: fk_activity_id
+user_id "user_id" *-down-- "user_1" friends: fk_friend_1
+user_id "user_id" *-down-- "user_2" friends: fk_friend_2
+user_id "user_id" *-- "user_id" user_notification: fk_user_id_user_notification
+notification "notification_id" *-- "notification_id" user_notification: fk_notification_id
+
+@enduml
