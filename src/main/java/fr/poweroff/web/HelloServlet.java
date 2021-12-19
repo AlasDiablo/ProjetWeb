@@ -1,4 +1,4 @@
-package fr.poweroff.web.projetweb;
+package fr.poweroff.web;
 
 import java.io.*;
 import javax.servlet.http.*;
