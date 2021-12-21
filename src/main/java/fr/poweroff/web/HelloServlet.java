@@ -19,7 +19,9 @@ public class  HelloServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.println("<html><body>");
         out.println("<h1>" + message + "</h1>");
-        out.println("<a href=\"segin-up\">S'inscrire</a>");
+        out.println("<a href=\"sign-up\">S'inscrire</a>");
+        out.println("<a href=\"sign-in\">S'identifier</a>");
+        out.println("<a href=\"sign-out\">Se deconnecter</a>");
         out.println("</body></html>");
     }
 

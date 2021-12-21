@@ -2,20 +2,18 @@ package fr.poweroff.web.login;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-@WebServlet(name = "/seginUp", value = "/segin-up")
-public class SeginUp  extends HttpServlet {
-    private Connection connexion;
+@WebServlet(name = "/signUp", value = "/sign-up")
+public class SignUp extends HttpServlet {
+    private Database database;
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
@@ -28,6 +26,9 @@ public class SeginUp  extends HttpServlet {
      */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // TODO Auto-generated method stub
+
+        database = new Database();
+
         if (request.getParameter("name") != null
                 && request.getParameter("Lname") != null
                 && request.getParameter("mail") != null
@@ -40,10 +41,10 @@ public class SeginUp  extends HttpServlet {
             String password = request.getParameter("password");
             String born = request.getParameter("born");
 
-            loadDatabase();
+            Connection connec = this.database.loadDatabase();
 
             try {
-                PreparedStatement preparedStatement = connexion.prepareStatement("INSERT INTO user(firstname, lastname, email, password_hash, born, level) VALUES(?, ?, ?, ?, ?, ?);");
+                PreparedStatement preparedStatement = connec.prepareStatement("INSERT INTO user(firstname, lastname, email, password_hash, born, level) VALUES(?, ?, ?, ?, ?, ?);");
                 preparedStatement.setString(1, name);
                 preparedStatement.setString(2, lname);
                 preparedStatement.setString(3, mail);
@@ -64,17 +65,5 @@ public class SeginUp  extends HttpServlet {
         }
     }
 
-    private void loadDatabase() {
-        // Chargement du driver
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-        }
 
-        try {
-            connexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/original", "root", "");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }
