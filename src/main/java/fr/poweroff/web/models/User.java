@@ -88,7 +88,7 @@ public class User extends Model {
      *
      * @throws SQLException error when PreparedStatement fail
      */
-    public static User getFirst(Integer userId) throws SQLException {
+    public static @Nullable User getFirst(Integer userId) throws SQLException {
         PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
                 "select * from user where user_id=?"
         );
@@ -117,7 +117,7 @@ public class User extends Model {
      */
     @Override
     public void save() throws SQLException, IllegalStateException {
-        this.checkIntegrity();
+        super.save();
         PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
                 "insert into user(firstname, lastname, email, password_hash, born, level) VALUES(?, ?, ?, ?, ?, ?)"
         );
@@ -134,12 +134,29 @@ public class User extends Model {
      */
     @Override
     public void update() throws SQLException, IllegalStateException {
-        this.checkIntegrity();
+        super.update();
         PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
                 "update user set firstname=?, lastname=?, email=?, password_hash=?, born=?, level=? where user_id=?"
         );
         this.setValueToQuery(statement);
         statement.setInt(7, this.userId);
+        statement.executeUpdate();
+        statement.close();
+    }
+
+    /**
+     * Delete the current user into the database
+     *
+     * @throws SQLException          error when PreparedStatement fail
+     * @throws IllegalStateException error when user components are null
+     */
+    @Override
+    public void delete() throws SQLException, IllegalStateException {
+        super.delete();
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "delete from user where user_id=?"
+        );
+        statement.setInt(1, this.userId);
         statement.executeUpdate();
         statement.close();
     }
