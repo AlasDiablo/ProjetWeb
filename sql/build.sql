@@ -9,10 +9,11 @@ create table user(
                      constraint pk_user_id primary key (user_id)
 );
 
-create table contaminated (
-                              user_id int,
-                              contaminated_at date,
-                              constraint fk_contaminated foreign key (user_id) references user (user_id)
+create table contaminated
+(
+    user_id         int,
+    contaminated_at date,
+    constraint fk_contaminated foreign key (user_id) references user (user_id)
 );
 
 create table activity (

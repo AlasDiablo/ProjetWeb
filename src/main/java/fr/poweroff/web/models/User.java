@@ -43,9 +43,8 @@ public class User extends Model {
      *
      * @return user with all components at null
      */
-    @NotNull
     @Contract(" -> new")
-    public static User create() {
+    public static @NotNull User create() {
         return new User();
     }
 
@@ -124,6 +123,16 @@ public class User extends Model {
         this.setValueToQuery(statement);
         statement.executeUpdate();
         statement.close();
+        PreparedStatement statementIdGetter = DataBase.CONNECTION.prepareStatement(
+                "select user_id from user where firstname = ? and lastname = ? and email = ? and password_hash = ? and born = ? and level = ?"
+        );
+        this.setValueToQuery(statementIdGetter);
+        ResultSet result = statementIdGetter.executeQuery();
+        if (result.next()) {
+            this.userId = result.getInt("user_id");
+        } else {
+            throw new IllegalStateException("The current user have not been save properly");
+        }
     }
 
     /**
@@ -161,7 +170,7 @@ public class User extends Model {
         statement.close();
     }
 
-    private void setValueToQuery(@NotNull PreparedStatement statement) throws SQLException {
+    protected void setValueToQuery(@NotNull PreparedStatement statement) throws SQLException {
         statement.setString(1, this.firstname);
         statement.setString(2, this.lastname);
         statement.setString(3, this.email);
@@ -171,19 +180,30 @@ public class User extends Model {
     }
 
     @Override
-    protected void checkIntegrity() throws IllegalStateException {
-        if (this.userId == null || this.firstname == null || this.lastname == null || this.passwordHash == null || this.email == null || this.born == null ||
-                this.level == null) {
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
+                ", born=" + born +
+                ", level=" + level +
+                "} " + super.toString();
+    }
+
+    @Override
+    protected void checkIntegrity(boolean isSave) throws IllegalStateException {
+        if (this.firstname == null || this.lastname == null || this.passwordHash == null || this.email == null || this.born == null || this.level == null) {
+            throw new IllegalStateException("User component can't be null");
+        }
+        if (!isSave && this.userId == null) {
             throw new IllegalStateException("User component can't be null");
         }
     }
 
     public Integer getUserId() {
         return userId;
-    }
-
-    public void setUserId(@NotNull Integer userId) {
-        this.userId = userId;
     }
 
     public String getFirstname() {
