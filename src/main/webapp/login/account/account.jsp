@@ -46,7 +46,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Mes amis</h5>
                     <p class="card-text">Visualisation de vos amis.</p>
-                    <a href="#" class="btn btn-primary">Acceder</a>
+                    <a href="amis" class="btn btn-primary">Acceder</a>
                 </div>
             </div>
         </div>

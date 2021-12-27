@@ -32,7 +32,7 @@
 
     <div class="list-group">
         <% for (User u: user) { %>
-            <button href="peoplePerso.jsp" type="button"class="list-group-item list-group-item-action"><%= u.getFirstname() %> <%= u.getLastname() %> <%= u.getEmail() %></button>
+            <a href="people-pers?mail=<%= u.getEmail() %>" role="button" type="button" class="list-group-item list-group-item-action"><%= u.getFirstname() %> <%= u.getLastname() %> <%= u.getEmail() %></a>
         <% } %>
     </div>
 </div>

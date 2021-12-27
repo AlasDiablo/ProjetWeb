@@ -16,8 +16,7 @@
 <body>
 <%@ include file="../../../menu.jsp" %>
 <%
-    session = request.getSession(true);
-    String mail = String.valueOf(session.getAttribute("email"));
+    String mail = (String) request.getAttribute("mail");
     User user = null;
     try {
         //Verfication de l'identifiant et du mot de passe
