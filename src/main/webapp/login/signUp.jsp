@@ -13,6 +13,7 @@
     <link href="/fontawesome/css/all.css" rel="stylesheet"> <%-- icons --%>
 </head>
 <body>
+<%@ include file="../menu.jsp" %>
 <div class="container">
 <h1 class="display-1 text-center">Formulaire</h1>
 <p>Les champs avec * sont obligatoires</p>

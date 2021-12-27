@@ -14,6 +14,7 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<%@ include file="../../../menu.jsp" %>
 <%
     session = request.getSession(true);
     String mail = String.valueOf(session.getAttribute("email"));

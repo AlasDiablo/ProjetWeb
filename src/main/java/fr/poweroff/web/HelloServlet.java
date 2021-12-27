@@ -37,7 +37,8 @@ public class  HelloServlet extends HttpServlet {
                 "    <title>Accueil</title>\n" +
                 "    <link href=\"bootstrap/css/bootstrap.min.css\" rel=\"stylesheet\">\n" +
                 "</head>" +
-                "<body>");
+                "<body>" +
+                "<%@ include file=\"\\menu.jsp\" %>");
         out.println("<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n" +
                 "  <a class=\"navbar-brand\" href=\"#\">Accueil</a>\n" +
                 "   <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n" +

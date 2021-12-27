@@ -12,6 +12,7 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<%@ include file="../menu.jsp" %>
 <div class="container">
 <h1 class="display-1 text-center">Connection</h1>
 <p>Les champs avec * sont obligatoires</p>

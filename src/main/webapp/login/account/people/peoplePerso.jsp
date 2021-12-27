@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>Mes informations</title>
+    <title>Informations</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -29,17 +29,17 @@
     }
     assert user != null;%>
 <div class="container">
-    <h1 class="display-1 text-center">Mes informations</h1>
+    <h1 class="display-1 text-center">Informations</h1>
 
     <div class="card">
-        <h5 class="card-header">Mes données personnelles</h5>
+        <h5 class="card-header">Données personnelles</h5>
         <div class="card-body">
             <p>Mon prénom : <b><%= user.getFirstname() %></b></p>
             <p>Mon nom : <b><%= user.getLastname() %></b></p>
             <p>Mon mail : <b><%= user.getEmail() %></b></p>
             <p>Ma date de naissance : <b><%= user.getBorn() %></b></p>
 
-            <a href="perso-mod" class="btn btn-warning">Modifier mes informations</a>
+            <a href="perso-mod" class="btn btn-success">Envoyer demande d'ami</a>
             <!--<a href="#" class="btn btn-danger">Supprimer mon compte</a>-->
         </div>
     </div>
