@@ -63,6 +63,10 @@ public class  HelloServlet extends HttpServlet {
                     "   </li>");
         }
         out.println("    </ul>" +
+                "    <form class=\"form-inline my-2 my-lg-0\" action=\"\\people\" method=\"post\">\n" +
+                "      <input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"People\" aria-label=\"Search\">\n" +
+                "      <button class=\"btn btn-outline-success my-2 my-sm-0\" type=\"submit\">Search</button>\n" +
+                "    </form>" +
                 "   </div>" +
                 "</nav>\n");
         out.println("<h1>" + message + "</h1>");
