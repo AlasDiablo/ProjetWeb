@@ -2,6 +2,7 @@ package fr.poweroff.web.models;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -15,7 +16,7 @@ public class Activity extends Model {
     private Date    endAt;
     private String  text;
 
-    public Activity(Integer activityId, Date startAt, Date endAt, String text) {
+    private Activity(Integer activityId, Date startAt, Date endAt, String text) {
         this.activityId = activityId;
         this.startAt    = startAt;
         this.endAt      = endAt;
@@ -32,6 +33,25 @@ public class Activity extends Model {
     @Contract(" -> new")
     public static @NotNull Activity create() {
         return new Activity();
+    }
+
+    public static @Nullable Activity getFirst(Integer activityId) throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "select * from activity where activity_id=?"
+        );
+        statement.setInt(1, activityId);
+        ResultSet result   = statement.executeQuery();
+        Activity  activity = null;
+        if (result.next()) {
+            activity = new Activity(
+                    activityId,
+                    result.getDate("start_at"),
+                    result.getDate("end_at"),
+                    result.getString("text")
+            );
+        }
+        result.close();
+        return activity;
     }
 
     @Override

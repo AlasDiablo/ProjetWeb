@@ -69,12 +69,13 @@ public class User extends Model {
                     result.getInt("user_id"),
                     result.getString("firstname"),
                     result.getString("lastname"),
-                    result.getString("email"),
+                    email,
                     result.getString("password_hash"),
                     result.getDate("born"),
                     result.getInt("level")
             );
         }
+        result.close();
         return user;
     }
 
@@ -96,7 +97,7 @@ public class User extends Model {
         User      user   = null;
         if (result.next()) {
             user = new User(
-                    result.getInt(userId),
+                    userId,
                     result.getString("firstname"),
                     result.getString("lastname"),
                     result.getString("email"),
@@ -105,6 +106,7 @@ public class User extends Model {
                     result.getInt("level")
             );
         }
+        result.close();
         return user;
     }
 
