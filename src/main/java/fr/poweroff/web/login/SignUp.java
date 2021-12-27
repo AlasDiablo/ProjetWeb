@@ -1,15 +1,14 @@
 package fr.poweroff.web.login;
 
+import fr.poweroff.web.models.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 @WebServlet(name = "/signUp", value = "/sign-up")
 public class SignUp extends HttpServlet {
@@ -35,13 +34,29 @@ public class SignUp extends HttpServlet {
                 && request.getParameter("password") != null
                 && request.getParameter("born") != null) {
 
+            //Faire les verification de chaqu'un
+
+
             String name = request.getParameter("name");
             String lname = request.getParameter("Lname");
             String mail = request.getParameter("mail");
             String password = request.getParameter("password");
             String born = request.getParameter("born");
 
-            Connection connec = this.database.loadDatabase();
+            User user = User.create();
+            user.setFirstname(name);
+            user.setLastname(lname);
+            user.setEmail(mail);
+            user.setPasswordHash(password); //Il faut hasher le mot de passe
+            user.setBorn(Date.valueOf(born));
+            user.setLevel(0);
+            try {
+                user.save();
+            } catch (SQLException e) {
+                throw new IOException(e);
+            }
+
+            /*Connection connec = this.database.loadDatabase();
 
             try {
                 PreparedStatement preparedStatement = connec.prepareStatement("INSERT INTO user(firstname, lastname, email, password_hash, born, level) VALUES(?, ?, ?, ?, ?, ?);");
@@ -55,7 +70,7 @@ public class SignUp extends HttpServlet {
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
+            }*/
 
             //redirection si c'est valide
             response.sendRedirect("hello-servlet");

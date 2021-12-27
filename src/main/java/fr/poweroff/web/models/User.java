@@ -69,7 +69,7 @@ public class User extends Model {
                     result.getInt("user_id"),
                     result.getString("firstname"),
                     result.getString("lastname"),
-                    result.getString(email),
+                    result.getString("email"),
                     result.getString("password_hash"),
                     result.getDate("born"),
                     result.getInt("level")

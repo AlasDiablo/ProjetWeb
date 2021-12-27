@@ -31,11 +31,11 @@ public class  HelloServlet extends HttpServlet {
         user.setFirstname("Mmmm");
         user.setBorn(new Date(1321565476));
         user.setLevel(0);
-        try {
+        /*try {
             user.save();
         } catch (SQLException e) {
             throw new IOException(e);
-        }
+        }*/
 
         // Hello
         PrintWriter out = response.getWriter();
@@ -44,11 +44,12 @@ public class  HelloServlet extends HttpServlet {
         out.println("<a href=\"sign-up\">S'inscrire</a>");
         out.println("<a href=\"sign-in\">S'identifier</a>");
         out.println("<a href=\"sign-out\">Se deconnecter</a>");
-        try {
+        out.println(user.getUserId());
+        /*try {
             out.println(User.getFirst(user.getUserId()));
         } catch (SQLException e) {
             throw new IOException(e);
-        }
+        }*/
         out.println("</body></html>");
     }
 

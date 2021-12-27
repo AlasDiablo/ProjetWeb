@@ -20,7 +20,8 @@ public class DataBase {
         }
 
         try {
-            CONNECTION = DriverManager.getConnection(String.format("jdbc:mysql://%s:3306/original", host), user, password);
+            CONNECTION = DriverManager.getConnection("jdbc:mysql://localhost:3306/original", "root", "");
+            //CONNECTION = DriverManager.getConnection(String.format("jdbc:mysql://%s:3306/original", host), user, password);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

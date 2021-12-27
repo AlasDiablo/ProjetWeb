@@ -1,10 +1,13 @@
 package fr.poweroff.web.login;
 
+import fr.poweroff.web.models.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.*;
 
@@ -24,7 +27,26 @@ public class SignIn extends HttpServlet {
             String mail = request.getParameter("mail");
             String password = request.getParameter("password");
 
-            database = new Database();
+            try {
+                //Verfication de l'identifiant et du mot de passe
+                User user = User.getFirst(mail);
+                assert user != null;
+                if(user.getPasswordHash().equals(password)){
+                    response.sendRedirect("hello-servlet");
+                }
+
+                //Creation de la session
+                HttpSession session = request.getSession();
+
+                session.setAttribute("lastName", user.getLastname());
+                session.setAttribute("name", user.getFirstname());
+                session.setAttribute("email", user.getEmail());
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            /*database = new Database();
 
             Connection connec = this.database.loadDatabase();
 
@@ -49,7 +71,7 @@ public class SignIn extends HttpServlet {
 
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
+            }*/
 
         } else {
             //si ca ne fonctionne pas
