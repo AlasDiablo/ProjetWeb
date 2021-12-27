@@ -33,23 +33,42 @@ public class  HelloServlet extends HttpServlet {
 
         // Hello
         PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
+        out.println("<html><head>\n" +
+                "    <title>Accueil</title>\n" +
+                "    <link href=\"bootstrap/css/bootstrap.min.css\" rel=\"stylesheet\">\n" +
+                "</head>" +
+                "<body>");
+        out.println("<nav class=\"navbar navbar-expand-lg navbar-light bg-light\">\n" +
+                "  <a class=\"navbar-brand\" href=\"#\">Accueil</a>\n" +
+                "   <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\n" +
+                "    <span class=\"navbar-toggler-icon\"></span>\n" +
+                "  </button>" +
+                "   <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\n" +
+                "    <ul class=\"navbar-nav mr-auto\">");
         if(Objects.equals(name, "null")) {
-            out.println("<a href=\"sign-up\">S'inscrire</a>");
-            out.println("<a href=\"sign-in\">S'identifier</a>");
+            out.println("<li class=\"nav-item\">\n" +
+                            "<a class=\"nav-link\" href=\"sign-up\">S'inscrire</a>" +
+                    "   </li>");
+            out.println("<li class=\"nav-item\">\n" +
+                    "<a class=\"nav-link\" href=\"sign-in\">S'identifier</a>" +
+                    "   </li>");
         }
         else {
-            out.println("<h2>\n Bonjour " + name + "</h2>\n");
-            out.println("<a href=\"sign-out\">Se deconnecter</a>");
+            //out.println("<h2>\n Bonjour " + name + "</h2>\n");
+            out.println("<li class=\"nav-item\">\n" +
+                    "<a class=\"nav-link\" href=\"sign-out\">Se deconnecter</a>" +
+                    "   </li>");
+            out.println("<li class=\"nav-item\">\n" +
+                    "<a class=\"nav-link\" href=\"account\">Compte</a>" +
+                    "   </li>");
         }
-
-        out.println("<h2>Password hash</h2>");
-        out.println("- plaintext: " + password + "<br>");
-        out.println("- hash: " + hash + "<br>");
-        out.println("- is equals: " + BCrypt.checkpw("test", hash));
-
-
+        out.println("    </ul>" +
+                "   </div>" +
+                "</nav>\n");
+        out.println("<h1>" + message + "</h1>");
+        if(!Objects.equals(name, "null")) {
+            out.println("<h2>\n Bonjour " + name + "</h2>\n");
+        }
 
         out.println("</body></html>");
     }
