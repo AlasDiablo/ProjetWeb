@@ -1,18 +1,19 @@
 package fr.poweroff.web.login;
 
 import fr.poweroff.web.models.User;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.*;
 
 @WebServlet(name = "/signUp", value = "/sign-up")
 public class SignUp extends HttpServlet {
-    private Database database;
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
@@ -23,10 +24,8 @@ public class SignUp extends HttpServlet {
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws  IOException {
         // TODO Auto-generated method stub
-
-        database = new Database();
 
         if (request.getParameter("name") != null
                 && request.getParameter("Lname") != null
@@ -43,11 +42,13 @@ public class SignUp extends HttpServlet {
             String password = request.getParameter("password");
             String born = request.getParameter("born");
 
+            String mdp = BCrypt.hashpw(password, BCrypt.gensalt());
+
             User user = User.create();
             user.setFirstname(name);
             user.setLastname(lname);
             user.setEmail(mail);
-            user.setPasswordHash(password); //Il faut hasher le mot de passe
+            user.setPasswordHash(mdp); //Il faut hasher le mot de passe
             user.setBorn(Date.valueOf(born));
             user.setLevel(0);
             try {
@@ -55,6 +56,13 @@ public class SignUp extends HttpServlet {
             } catch (SQLException e) {
                 throw new IOException(e);
             }
+
+            //Creation de la session
+            HttpSession session = request.getSession();
+
+            session.setAttribute("lastName", user.getLastname());
+            session.setAttribute("name", user.getFirstname());
+            session.setAttribute("email", user.getEmail());
 
             /*Connection connec = this.database.loadDatabase();
 

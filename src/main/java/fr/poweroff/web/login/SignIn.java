@@ -1,6 +1,7 @@
 package fr.poweroff.web.login;
 
 import fr.poweroff.web.models.User;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +22,7 @@ public class SignIn extends HttpServlet {
         this.getServletContext().getRequestDispatcher("/login/signIn.jsp").forward(request, response);
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getParameter("mail") != null && request.getParameter("password") != null) {
 
             String mail = request.getParameter("mail");
@@ -31,7 +32,7 @@ public class SignIn extends HttpServlet {
                 //Verfication de l'identifiant et du mot de passe
                 User user = User.getFirst(mail);
                 assert user != null;
-                if(user.getPasswordHash().equals(password)){
+                if(BCrypt.checkpw(password, user.getPasswordHash())){
                     response.sendRedirect("hello-servlet");
                 }
 
