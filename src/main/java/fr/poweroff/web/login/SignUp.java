@@ -24,7 +24,7 @@ public class SignUp extends HttpServlet {
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         // TODO Auto-generated method stub
 
         if (request.getParameter("name") != null
@@ -33,12 +33,27 @@ public class SignUp extends HttpServlet {
                 && request.getParameter("password") != null
                 && request.getParameter("born") != null) {
 
+
+            String mail = request.getParameter("mail");
+
             //Faire les verification de chaqu'un
+                //Verification d'une adresse mail unique
+            User usMail = null;
+            try {
+                usMail = User.getFirst(mail);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            //On retourne sur la page
+            if(usMail != null){
+                this.getServletContext().getRequestDispatcher("/login/signUp.jsp").forward(request, response);
+                //response.sendRedirect("sign-up");
+            }
 
 
             String name = request.getParameter("name");
             String lname = request.getParameter("Lname");
-            String mail = request.getParameter("mail");
             String password = request.getParameter("password");
             String born = request.getParameter("born");
 
