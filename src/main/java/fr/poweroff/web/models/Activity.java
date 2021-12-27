@@ -14,25 +14,37 @@ public class Activity extends Model {
     private Integer activityId;
     private Date    startAt;
     private Date    endAt;
-    private String  text;
+    private String  city;
+    private User    owner;
 
-    private Activity(Integer activityId, Date startAt, Date endAt, String text) {
+    Activity(Integer activityId, Date startAt, Date endAt, String city) {
         this.activityId = activityId;
         this.startAt    = startAt;
         this.endAt      = endAt;
-        this.text       = text;
+        this.city       = city;
     }
 
-    public Activity() {
+    private Activity(User owner) {
         this.activityId = null;
         this.startAt    = null;
         this.endAt      = null;
-        this.text       = null;
+        this.city       = null;
+        this.owner      = owner;
     }
 
     @Contract(" -> new")
     public static @NotNull Activity create() {
-        return new Activity();
+        return new Activity(null);
+    }
+
+    @Contract("_ -> new")
+    public static @NotNull Activity create(@Nullable User owner) {
+        return new Activity(owner);
+    }
+
+    @Contract("_ -> new")
+    public static @NotNull Activity create(@NotNull Integer userId) throws SQLException {
+        return new Activity(User.getFirst(userId));
     }
 
     public static @Nullable Activity getFirst(Integer activityId) throws SQLException {
@@ -47,7 +59,7 @@ public class Activity extends Model {
                     activityId,
                     result.getDate("start_at"),
                     result.getDate("end_at"),
-                    result.getString("text")
+                    result.getString("city")
             );
         }
         result.close();
@@ -60,17 +72,20 @@ public class Activity extends Model {
                 "activityId=" + activityId +
                 ", startAt=" + startAt +
                 ", endAt=" + endAt +
-                ", text='" + text + '\'' +
+                ", text='" + city + '\'' +
                 "} " + super.toString();
     }
 
     @Override
     protected void checkIntegrity(boolean isSave) throws IllegalStateException {
-        if (this.startAt == null || this.endAt == null || this.text == null) {
+        if (this.startAt == null || this.endAt == null || this.city == null) {
             throw new IllegalStateException("Activity component can't be null");
         }
         if (!isSave && this.activityId == null) {
-            throw new IllegalStateException("Activity component can't be null");
+            throw new IllegalStateException("Activity ID can't be null");
+        }
+        if (isSave && this.owner == null) {
+            throw new IllegalStateException("Owner can't be null");
         }
     }
 
@@ -115,13 +130,39 @@ public class Activity extends Model {
         this.setValueToQuery(statement);
         statement.executeUpdate();
         statement.close();
+        PreparedStatement statementInnerJoin = DataBase.CONNECTION.prepareStatement(
+                "insert into user_activity(user_id, activity_id) value (?, ?)"
+        );
+        statementInnerJoin.setInt(1, this.owner.getUserId());
+        statementInnerJoin.setInt(2, this.activityId);
+        statementInnerJoin.executeUpdate();
+        statementInnerJoin.close();
     }
 
     @Override
     protected void setValueToQuery(@NotNull PreparedStatement statement) throws SQLException {
         statement.setDate(1, this.startAt);
         statement.setDate(2, this.endAt);
-        statement.setString(3, this.text);
+        statement.setString(3, this.city);
+    }
+
+    public User getOwner() throws SQLException {
+        if (this.owner == null) {
+            PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                    "select user.user_id from user inner join user_activity on user.user_id = user_activity.user_id where activity_id = ?"
+            );
+            statement.setInt(1, this.activityId);
+            ResultSet result = statement.executeQuery();
+            if (result.next()) {
+                int userId = result.getInt(1);
+                this.owner = User.getFirst(userId);
+            }
+        }
+        return this.owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public Integer getActivityId() {
@@ -144,11 +185,11 @@ public class Activity extends Model {
         this.endAt = endAt;
     }
 
-    public String getText() {
-        return text;
+    public String getCity() {
+        return city;
     }
 
-    public void setText(@NotNull String text) {
-        this.text = text;
+    public void setCity(@NotNull String city) {
+        this.city = city;
     }
 }

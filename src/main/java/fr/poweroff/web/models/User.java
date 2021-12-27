@@ -8,6 +8,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User extends Model {
 
@@ -202,6 +204,24 @@ public class User extends Model {
         if (!isSave && this.userId == null) {
             throw new IllegalStateException("User component can't be null");
         }
+    }
+
+    public List<Activity> getActivities() throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "select activity.activity_id as activity_id, start_at, end_at, city from activity inner join user_activity on activity.activity_id = user_activity.activity_id where user_id = ?"
+        );
+        statement.setInt(1, this.userId);
+        ResultSet      result     = statement.executeQuery();
+        List<Activity> activities = new ArrayList<>();
+        while (result.next()) {
+            activities.add(new Activity(
+                    result.getInt("activity_id"),
+                    result.getDate("start_at"),
+                    result.getDate("end_at"),
+                    result.getString("city")
+            ));
+        }
+        return activities;
     }
 
     public Integer getUserId() {
