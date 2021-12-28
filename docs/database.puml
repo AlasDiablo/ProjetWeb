@@ -32,6 +32,7 @@ class user_activity {
 class friends {
     # user_1 (int)
     # user_2 (int)
+    - accepted (bool)
 }
 
 class notification {

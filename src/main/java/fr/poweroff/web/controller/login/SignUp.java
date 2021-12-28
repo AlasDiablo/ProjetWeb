@@ -1,4 +1,4 @@
-package fr.poweroff.web.login;
+package fr.poweroff.web.controller.login;
 
 import fr.poweroff.web.models.User;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Date;
+import java.sql.SQLException;
 
 @WebServlet(name = "/signUp", value = "/sign-up")
 public class SignUp extends HttpServlet {
@@ -37,7 +38,7 @@ public class SignUp extends HttpServlet {
             String mail = request.getParameter("mail");
 
             //Faire les verification de chaqu'un
-                //Verification d'une adresse mail unique
+            //Verification d'une adresse mail unique
             User usMail = null;
             try {
                 usMail = User.getFirst(mail);
@@ -46,16 +47,16 @@ public class SignUp extends HttpServlet {
             }
 
             //On retourne sur la page
-            if(usMail != null){
+            if (usMail != null) {
                 this.getServletContext().getRequestDispatcher("/login/signUp.jsp").forward(request, response);
                 //response.sendRedirect("sign-up");
             }
 
 
-            String name = request.getParameter("name");
-            String lname = request.getParameter("Lname");
+            String name     = request.getParameter("name");
+            String lname    = request.getParameter("Lname");
             String password = request.getParameter("password");
-            String born = request.getParameter("born");
+            String born     = request.getParameter("born");
 
             String mdp = BCrypt.hashpw(password, BCrypt.gensalt());
 

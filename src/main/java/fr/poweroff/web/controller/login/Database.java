@@ -1,4 +1,4 @@
-package fr.poweroff.web.login;
+package fr.poweroff.web.controller.login;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class Database {
 
-    public  Connection loadDatabase() {
+    public Connection loadDatabase() {
         // Chargement du driver
         try {
             Class.forName("com.mysql.jdbc.Driver");

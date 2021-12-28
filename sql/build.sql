@@ -34,8 +34,9 @@ create table user_activity
 
 create table friends
 (
-    user_1 int,
-    user_2 int,
+    user_1   int,
+    user_2   int,
+    accepted bool,
     constraint fk_friend_1 foreign key (user_1) references user (user_id),
     constraint fk_friend_2 foreign key (user_2) references user (user_id)
 );

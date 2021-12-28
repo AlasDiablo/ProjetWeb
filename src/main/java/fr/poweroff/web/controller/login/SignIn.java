@@ -1,4 +1,4 @@
-package fr.poweroff.web.login;
+package fr.poweroff.web.controller.login;
 
 import fr.poweroff.web.models.User;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.SQLException;
 
 @WebServlet(name = "/signIn", value = "/sign-in")
 public class SignIn extends HttpServlet {
@@ -25,14 +25,14 @@ public class SignIn extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getParameter("mail") != null && request.getParameter("password") != null) {
 
-            String mail = request.getParameter("mail");
+            String mail     = request.getParameter("mail");
             String password = request.getParameter("password");
 
             try {
                 //Verfication de l'identifiant et du mot de passe
                 User user = User.getFirst(mail);
                 assert user != null;
-                if(BCrypt.checkpw(password, user.getPasswordHash())){
+                if (BCrypt.checkpw(password, user.getPasswordHash())) {
                     response.sendRedirect("hello-servlet");
                 }
 

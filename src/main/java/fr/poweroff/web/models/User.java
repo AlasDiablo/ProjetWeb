@@ -83,15 +83,17 @@ public class User extends Model {
 
     /**
      * Recherche de tous les utilisateurs
+     *
      * @return liste des utilisateurs
+     *
      * @throws SQLException error when PreparedStatement fail
      */
-    public static @Nullable List<User> getUser() throws SQLException{
+    public static @NotNull List<User> getUsers() throws SQLException {
         PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
-                "select * from user" );
-        ResultSet result = statement.executeQuery();
-        List<User> user = new ArrayList<>();
-        while(result.next()){
+                "select * from user");
+        ResultSet  result = statement.executeQuery();
+        List<User> user   = new ArrayList<>();
+        while (result.next()) {
             user.add(new User(
                     result.getInt("user_id"),
                     result.getString("firstname"),

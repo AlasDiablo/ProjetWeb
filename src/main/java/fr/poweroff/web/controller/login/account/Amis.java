@@ -1,4 +1,4 @@
-package fr.poweroff.web.people;
+package fr.poweroff.web.controller.login.account;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,22 +7,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "/people", value = "/people")
-public class People extends HttpServlet {
+@WebServlet(name = "/amis", value = "/amis")
+public class Amis extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
 
-        this.getServletContext().getRequestDispatcher("/login/account/people/listPeople.jsp").forward(request, response);
+        this.getServletContext().getRequestDispatcher("/login/account/ami/listAmi.jsp").forward(request, response);
 
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        try {
-            this.getServletContext().getRequestDispatcher("/login/account/people/listPeople.jsp").forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        }
 
         response.sendRedirect("hello-servlet");
     }

@@ -1,4 +1,4 @@
-package fr.poweroff.web.login.account;
+package fr.poweroff.web.controller.login.account;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,12 +7,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "/amis", value = "/amis")
-public class Amis extends HttpServlet {
+@WebServlet(name = "/account", value = "/account")
+public class Account extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
 
-        this.getServletContext().getRequestDispatcher("/login/account/ami/listAmi.jsp").forward(request, response);
+        this.getServletContext().getRequestDispatcher("/login/account/account.jsp").forward(request, response);
 
     }
 

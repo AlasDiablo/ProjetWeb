@@ -1,4 +1,4 @@
-package fr.poweroff.web.people;
+package fr.poweroff.web.controller.people;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

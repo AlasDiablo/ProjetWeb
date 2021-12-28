@@ -1,4 +1,4 @@
-package fr.poweroff.web.login.account;
+package fr.poweroff.web.controller.login.account;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

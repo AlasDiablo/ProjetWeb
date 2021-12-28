@@ -1,7 +1,6 @@
-package fr.poweroff.web.login.account;
+package fr.poweroff.web.controller.login.account;
 
 import fr.poweroff.web.models.User;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,9 +28,9 @@ public class PersoMod extends HttpServlet {
 
             System.out.println(request.getParameter("lname"));
 
-            String name = request.getParameter("name");
+            String name  = request.getParameter("name");
             String lname = request.getParameter("lname");
-            String born = request.getParameter("born");
+            String born  = request.getParameter("born");
 
             HttpSession session = request.getSession();
 

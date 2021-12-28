@@ -20,7 +20,7 @@
     List<User> user = null;
     try {
         //Verfication de l'identifiant et du mot de passe
-        user = User.getUser();
+        user = User.getUsers();
         assert user != null;
 
     } catch (SQLException e) {

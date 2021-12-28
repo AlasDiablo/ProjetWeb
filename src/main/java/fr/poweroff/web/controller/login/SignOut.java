@@ -1,6 +1,4 @@
-package fr.poweroff.web.login;
-
-import fr.poweroff.web.models.User;
+package fr.poweroff.web.controller.login;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet(name = "/signOut", value = "/sign-out")
 public class SignOut extends HttpServlet {
