@@ -10,7 +10,6 @@ import java.io.IOException;
 
 @WebServlet(name = "/signOut", value = "/sign-out")
 public class SignOut extends HttpServlet {
-    private Database database;
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");

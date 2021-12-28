@@ -14,7 +14,6 @@ import java.sql.SQLException;
 
 @WebServlet(name = "/signIn", value = "/sign-in")
 public class SignIn extends HttpServlet {
-    private Database database;
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
