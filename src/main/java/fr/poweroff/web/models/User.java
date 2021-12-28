@@ -250,6 +250,83 @@ public class User extends Model {
         return activities;
     }
 
+    public List<User> getFriends() throws SQLException {
+        List<User> friends = new ArrayList<>();
+        PreparedStatement statementFriendsLeft = DataBase.CONNECTION.prepareStatement(
+                "select * from user inner join friends on user.user_id = friends.user_1 where accepted = true and user_2 = ?"
+        );
+        PreparedStatement statementFriendsRight = DataBase.CONNECTION.prepareStatement(
+                "select * from user inner join friends on user.user_id = friends.user_2 where accepted = true and user_1 = ?"
+        );
+        statementFriendsLeft.setInt(1, this.userId);
+        statementFriendsRight.setInt(1, this.userId);
+        ResultSet resultLeft  = statementFriendsLeft.executeQuery();
+        ResultSet resultRight = statementFriendsRight.executeQuery();
+        this.readFriends(friends, resultLeft);
+        this.readFriends(friends, resultRight);
+        return friends;
+    }
+
+    public List<User> getIngoingFriendsRequest() throws SQLException {
+        List<User> ingoingFriends = new ArrayList<>();
+        PreparedStatement statementIngoingFriends = DataBase.CONNECTION.prepareStatement(
+                "select * from user inner join friends on user.user_id = friends.user_1 where accepted = false and user_2 = ?"
+        );
+        statementIngoingFriends.setInt(1, this.userId);
+        ResultSet resultIngoingFriends = statementIngoingFriends.executeQuery();
+        this.readFriends(ingoingFriends, resultIngoingFriends);
+        return ingoingFriends;
+    }
+
+    public List<User> getOutgoingFriendsRequest() throws SQLException {
+        List<User> outgoingFriends = new ArrayList<>();
+        PreparedStatement statementOutgoingFriends = DataBase.CONNECTION.prepareStatement(
+                "select * from user inner join friends on user.user_id = friends.user_2 where accepted = false and user_1 = ?"
+        );
+        statementOutgoingFriends.setInt(1, this.userId);
+        ResultSet resultOutgoingFriends = statementOutgoingFriends.executeQuery();
+        this.readFriends(outgoingFriends, resultOutgoingFriends);
+        return outgoingFriends;
+    }
+
+    public void acceptFriendRequest(Integer requestUserId) throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "update friends set accepted = true where user_1 = ? and user_2 = ?"
+        );
+        statement.setInt(1, requestUserId);
+        statement.setInt(2, this.userId);
+        statement.executeUpdate();
+    }
+
+    public void removeFriend(Integer friendUserId) throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "delete from friends where (user_1 = ? and user_2 = ?) or (user_1 = ? and user_2 = ?)"
+        );
+        statement.setInt(1, friendUserId);
+        statement.setInt(2, this.userId);
+        statement.setInt(3, this.userId);
+        statement.setInt(4, friendUserId);
+        statement.executeUpdate();
+    }
+
+    public void deniedFriendRequest(Integer requestUserId) throws SQLException {
+        this.removeFriend(requestUserId);
+    }
+
+    private void readFriends(List<User> friends, @NotNull ResultSet resultSet) throws SQLException {
+        while (resultSet.next()) {
+            friends.add(new User(
+                    resultSet.getInt("user_id"),
+                    resultSet.getString("firstname"),
+                    resultSet.getString("lastname"),
+                    resultSet.getString("email"),
+                    resultSet.getString("password_hash"),
+                    resultSet.getDate("born"),
+                    resultSet.getInt("level")
+            ));
+        }
+    }
+
     public Integer getUserId() {
         return userId;
     }
