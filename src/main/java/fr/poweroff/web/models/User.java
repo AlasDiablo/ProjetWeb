@@ -327,6 +327,19 @@ public class User extends Model {
         }
     }
 
+    public List<Date> getContaminationHistory() throws SQLException {
+        List<Date> history = new ArrayList<>();
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "select contaminated_at from contaminated where user_id = ?"
+        );
+        statement.setInt(1, this.userId);
+        ResultSet result = statement.executeQuery();
+        while (result.next()) {
+            history.add(result.getDate("contaminated_at"));
+        }
+        return history;
+    }
+
     public Integer getUserId() {
         return userId;
     }
