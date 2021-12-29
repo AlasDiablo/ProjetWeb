@@ -100,6 +100,7 @@ public class SignUp extends HttpServlet {
             response.sendRedirect("hello-servlet");
         } else {
             //si ca ne fonctionne pas
+            this.getServletContext().getRequestDispatcher("/login/signUp.jsp").forward(request, response);
             response.sendRedirect("sign-up");
         }
     }
