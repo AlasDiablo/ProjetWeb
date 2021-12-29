@@ -41,10 +41,11 @@ create table friends
     constraint fk_friend_2 foreign key (user_2) references user (user_id)
 );
 
-create table notification (
-    notification_id int auto_increment,
-    content text,
-    constraint pk_notification_id primary key (notification_id)
+create table notification(
+                             notification_id int auto_increment,
+                             content         text,
+                             un_read         bool,
+                             constraint pk_notification_id primary key (notification_id)
 );
 
 create table user_notification
