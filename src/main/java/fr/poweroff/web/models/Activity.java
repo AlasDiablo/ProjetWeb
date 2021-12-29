@@ -107,18 +107,9 @@ public class Activity extends Model {
                 "update activity set start_at = ?, end_at = ?, city = ? where activity_id = ?"
         );
         this.setValueToQuery(statement);
+        statement.setInt(4, this.activityId);
         statement.executeUpdate();
         statement.close();
-        PreparedStatement statementIdGetter = DataBase.CONNECTION.prepareStatement(
-                "select activity_id from activity where start_at = ? and end_at = ? and city = ?"
-        );
-        this.setValueToQuery(statementIdGetter);
-        ResultSet result = statementIdGetter.executeQuery();
-        if (result.next()) {
-            this.activityId = result.getInt("activity_id");
-        } else {
-            throw new IllegalStateException("The current activity have not been save properly");
-        }
     }
 
     @Override
@@ -130,6 +121,18 @@ public class Activity extends Model {
         this.setValueToQuery(statement);
         statement.executeUpdate();
         statement.close();
+
+        PreparedStatement statementIdGetter = DataBase.CONNECTION.prepareStatement(
+                "select activity_id from activity where start_at = ? and end_at = ? and city = ?"
+        );
+        this.setValueToQuery(statementIdGetter);
+        ResultSet result = statementIdGetter.executeQuery();
+        if (result.next()) {
+            this.activityId = result.getInt("activity_id");
+        } else {
+            throw new IllegalStateException("The current activity have not been save properly");
+        }
+
         PreparedStatement statementInnerJoin = DataBase.CONNECTION.prepareStatement(
                 "insert into user_activity(user_id, activity_id) value (?, ?)"
         );

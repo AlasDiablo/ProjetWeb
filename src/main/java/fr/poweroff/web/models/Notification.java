@@ -5,14 +5,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Notification extends Model {
 
-    private final Integer notificationId;
-    private       String  content;
-    private       Boolean unRead;
-    private       User    target;
+    private Integer notificationId;
+    private String  content;
+    private Boolean unRead;
+    private User    target;
 
     private Notification(User target) {
         this.notificationId = null;
@@ -21,11 +22,29 @@ public class Notification extends Model {
         this.target         = target;
     }
 
-    private Notification(Integer notificationId, String content, User target, Boolean unRead) {
+    private Notification(Integer notificationId, String content, Boolean unRead) {
         this.notificationId = notificationId;
         this.content        = content;
-        this.target         = target;
+        this.target         = null;
         this.unRead         = unRead;
+    }
+
+    public static @Nullable Notification getFirst(Integer notificationId) throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "select * from notification where notification_id=?"
+        );
+        statement.setInt(1, notificationId);
+        ResultSet    result       = statement.executeQuery();
+        Notification notification = null;
+        if (result.next()) {
+            notification = new Notification(
+                    notificationId,
+                    result.getString("content"),
+                    result.getBoolean("un_read")
+            );
+        }
+        result.close();
+        return notification;
     }
 
     @Contract(" -> new")
@@ -60,6 +79,7 @@ public class Notification extends Model {
         return "Notification{" +
                 "notificationId=" + notificationId +
                 ", content='" + content + '\'' +
+                ", unRead=" + unRead +
                 ", target=" + target +
                 "} " + super.toString();
     }
@@ -83,25 +103,71 @@ public class Notification extends Model {
     @Override
     public void save() throws SQLException, IllegalStateException {
         super.save();
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "insert into notification(content, un_read) value (?, ?)"
+        );
+        this.setValueToQuery(statement);
+        statement.executeUpdate();
+        statement.close();
+        PreparedStatement statementIdGetter = DataBase.CONNECTION.prepareStatement(
+                "select notification_id from notification where content = ? and un_read = ?"
+        );
+        this.setValueToQuery(statementIdGetter);
+        ResultSet result = statementIdGetter.executeQuery();
+        if (result.next()) {
+            this.notificationId = result.getInt("activity_id");
+        } else {
+            throw new IllegalStateException("The current activity have not been save properly");
+        }
+        statementIdGetter.close();
+        PreparedStatement statementJoin = DataBase.CONNECTION.prepareStatement(
+                "insert into user_notification(notification_id, user_id) value (?, ?)"
+        );
+        statementJoin.setInt(1, this.notificationId);
+        statementJoin.setInt(2, this.target.getUserId());
+        statementJoin.executeUpdate();
+        statementJoin.close();
     }
 
     @Override
     public void delete() throws SQLException, IllegalStateException {
         super.delete();
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "delete from notification where notification_id = ?"
+        );
+        statement.setInt(1, this.notificationId);
+        statement.executeUpdate();
+        statement.close();
     }
 
     @Override
     public void update() throws SQLException, IllegalStateException {
         super.update();
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "update notification set content = ?, un_read = ? where notification_id = ?"
+        );
+        this.setValueToQuery(statement);
+        statement.setInt(3, this.notificationId);
+        statement.executeUpdate();
+        statement.close();
     }
 
     @Override
     protected void checkIntegrity(boolean isSave) throws IllegalStateException {
-
+        if (this.content == null || this.unRead) {
+            throw new IllegalStateException("Notification component can't be null");
+        }
+        if (!isSave && this.notificationId == null) {
+            throw new IllegalStateException("Notification ID can't be null");
+        }
+        if (isSave && this.target == null) {
+            throw new IllegalStateException("Target can't be null");
+        }
     }
 
     @Override
     protected void setValueToQuery(@NotNull PreparedStatement statement) throws SQLException {
-
+        statement.setString(1, this.content);
+        statement.setBoolean(2, this.unRead);
     }
 }
