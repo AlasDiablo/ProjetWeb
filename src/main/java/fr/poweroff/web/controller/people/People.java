@@ -18,6 +18,8 @@ public class People extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        String people = request.getParameter("people");
+        request.setAttribute("people", people);
         try {
             this.getServletContext().getRequestDispatcher("/login/account/people/listPeople.jsp").forward(request, response);
         } catch (ServletException e) {

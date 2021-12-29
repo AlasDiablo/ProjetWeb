@@ -36,7 +36,7 @@
         <% }%>
         </ul>
         <form class="form-inline my-2 my-lg-0" action="people" method="post">
-            <input class="form-control mr-sm-2" type="search" placeholder="People" aria-label="Search">
+            <input class="form-control mr-sm-2" type="search" placeholder="People" name="people" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
