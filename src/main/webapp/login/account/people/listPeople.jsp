@@ -21,10 +21,10 @@
     List<User> user = null;
     List<User> userN = null;
     List<User> userLN = null;
-    //System.out.println(people);
+    System.out.println(people);
     try {
         //Verifiacation si une donnée a été donné
-        if(people == null)
+        if(people == "")
             user = User.getUsers();
         else {
             user = User.getUsersMail(people);
