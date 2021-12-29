@@ -2,6 +2,7 @@ package fr.poweroff.web.controller;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +20,10 @@ public class HelloServlet extends HttpServlet {
         message = "Hello World!";
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
+
+        this.getServletContext().getRequestDispatcher("/accueil.jsp").forward(request, response);
 
         String password = "test";
         String hash     = BCrypt.hashpw(password, BCrypt.gensalt());
