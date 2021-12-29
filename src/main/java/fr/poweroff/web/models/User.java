@@ -108,6 +108,88 @@ public class User extends Model {
     }
 
     /**
+     * Recherche de tous les utilisateurs
+     *
+     * @return liste des utilisateurs
+     *
+     * @throws SQLException error when PreparedStatement fail
+     */
+    public static @NotNull List<User> getUsersMail(String email) throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "select * from user WHERE email=?");
+        statement.setString(1, email);
+        ResultSet  result = statement.executeQuery();
+        List<User> user   = new ArrayList<>();
+        while (result.next()) {
+            user.add(new User(
+                    result.getInt("user_id"),
+                    result.getString("firstname"),
+                    result.getString("lastname"),
+                    result.getString("email"),
+                    result.getString("password_hash"),
+                    result.getDate("born"),
+                    result.getInt("level")
+            ));
+        }
+        return user;
+    }
+
+    /**
+     * Recherche de tous les utilisateurs
+     *
+     * @param firstname le prenom de la personne a chercher
+     * @return liste des utilisateurs
+     *
+     * @throws SQLException error when PreparedStatement fail
+     */
+    public static @NotNull List<User> getUsersName(String firstname) throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "select * from user WHERE firstname=?");
+        statement.setString(1, firstname);
+        ResultSet  result = statement.executeQuery();
+        List<User> user   = new ArrayList<>();
+        while (result.next()) {
+            user.add(new User(
+                    result.getInt("user_id"),
+                    result.getString("firstname"),
+                    result.getString("lastname"),
+                    result.getString("email"),
+                    result.getString("password_hash"),
+                    result.getDate("born"),
+                    result.getInt("level")
+            ));
+        }
+        return user;
+    }
+
+    /**
+     * Recherche de tous les utilisateurs
+     *
+     * @param lastname le nom de la personne recherchée
+     * @return liste des utilisateurs
+     *
+     * @throws SQLException error when PreparedStatement fail
+     */
+    public static @NotNull List<User> getUsersLastName(String lastname) throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "select * from user WHERE lastname=?");
+        statement.setString(1, lastname);
+        ResultSet  result = statement.executeQuery();
+        List<User> user   = new ArrayList<>();
+        while (result.next()) {
+            user.add(new User(
+                    result.getInt("user_id"),
+                    result.getString("firstname"),
+                    result.getString("lastname"),
+                    result.getString("email"),
+                    result.getString("password_hash"),
+                    result.getDate("born"),
+                    result.getInt("level")
+            ));
+        }
+        return user;
+    }
+    /**
      * get the first user with a user id as query element
      *
      * @param userId user id
