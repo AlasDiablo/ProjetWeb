@@ -92,18 +92,9 @@ public class User extends Model {
         PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
                 "select * from user");
         ResultSet  result = statement.executeQuery();
-        List<User> user   = new ArrayList<>();
-        while (result.next()) {
-            user.add(new User(
-                    result.getInt("user_id"),
-                    result.getString("firstname"),
-                    result.getString("lastname"),
-                    result.getString("email"),
-                    result.getString("password_hash"),
-                    result.getDate("born"),
-                    result.getInt("level")
-            ));
-        }
+        List<User> user   = readUsers(result);
+        statement.close();
+        result.close();
         return user;
     }
 
@@ -119,18 +110,9 @@ public class User extends Model {
                 "select * from user WHERE email=?");
         statement.setString(1, email);
         ResultSet  result = statement.executeQuery();
-        List<User> user   = new ArrayList<>();
-        while (result.next()) {
-            user.add(new User(
-                    result.getInt("user_id"),
-                    result.getString("firstname"),
-                    result.getString("lastname"),
-                    result.getString("email"),
-                    result.getString("password_hash"),
-                    result.getDate("born"),
-                    result.getInt("level")
-            ));
-        }
+        List<User> user   = readUsers(result);
+        statement.close();
+        result.close();
         return user;
     }
 
@@ -147,18 +129,9 @@ public class User extends Model {
                 "select * from user WHERE firstname=?");
         statement.setString(1, firstname);
         ResultSet  result = statement.executeQuery();
-        List<User> user   = new ArrayList<>();
-        while (result.next()) {
-            user.add(new User(
-                    result.getInt("user_id"),
-                    result.getString("firstname"),
-                    result.getString("lastname"),
-                    result.getString("email"),
-                    result.getString("password_hash"),
-                    result.getDate("born"),
-                    result.getInt("level")
-            ));
-        }
+        List<User> user   = readUsers(result);
+        statement.close();
+        result.close();
         return user;
     }
 
@@ -175,9 +148,16 @@ public class User extends Model {
                 "select * from user WHERE lastname=?");
         statement.setString(1, lastname);
         ResultSet  result = statement.executeQuery();
-        List<User> user   = new ArrayList<>();
+        List<User> user   = readUsers(result);
+        statement.close();
+        result.close();
+        return user;
+    }
+
+    public static @NotNull List<User> readUsers(@NotNull ResultSet result) throws SQLException {
+        List<User> users = new ArrayList<>();
         while (result.next()) {
-            user.add(new User(
+            users.add(new User(
                     result.getInt("user_id"),
                     result.getString("firstname"),
                     result.getString("lastname"),
@@ -187,8 +167,9 @@ public class User extends Model {
                     result.getInt("level")
             ));
         }
-        return user;
+        return users;
     }
+
     /**
      * get the first user with a user id as query element
      *
@@ -216,6 +197,7 @@ public class User extends Model {
                     result.getInt("level")
             );
         }
+        statement.close();
         result.close();
         return user;
     }
@@ -245,6 +227,8 @@ public class User extends Model {
         } else {
             throw new IllegalStateException("The current user have not been save properly");
         }
+        statementIdGetter.close();
+        result.close();
     }
 
     /**
@@ -329,6 +313,8 @@ public class User extends Model {
                     result.getString("city")
             ));
         }
+        statement.close();
+        result.close();
         return activities;
     }
 
@@ -346,6 +332,10 @@ public class User extends Model {
         ResultSet resultRight = statementFriendsRight.executeQuery();
         this.readFriends(friends, resultLeft);
         this.readFriends(friends, resultRight);
+        statementFriendsLeft.close();
+        statementFriendsRight.close();
+        resultLeft.close();
+        resultRight.close();
         return friends;
     }
 
@@ -357,6 +347,8 @@ public class User extends Model {
         statementIngoingFriends.setInt(1, this.userId);
         ResultSet resultIngoingFriends = statementIngoingFriends.executeQuery();
         this.readFriends(ingoingFriends, resultIngoingFriends);
+        statementIngoingFriends.close();
+        resultIngoingFriends.close();
         return ingoingFriends;
     }
 
@@ -368,6 +360,8 @@ public class User extends Model {
         statementOutgoingFriends.setInt(1, this.userId);
         ResultSet resultOutgoingFriends = statementOutgoingFriends.executeQuery();
         this.readFriends(outgoingFriends, resultOutgoingFriends);
+        statementOutgoingFriends.close();
+        resultOutgoingFriends.close();
         return outgoingFriends;
     }
 
@@ -378,6 +372,17 @@ public class User extends Model {
         statement.setInt(1, requestUserId);
         statement.setInt(2, this.userId);
         statement.executeUpdate();
+        statement.close();
+    }
+
+    public void sendFriendRequest(Integer friendUserId) throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "insert into friends(user_1, user_2, accepted) value (?, ?, false)"
+        );
+        statement.setInt(1, this.userId);
+        statement.setInt(2, friendUserId);
+        statement.executeUpdate();
+        statement.close();
     }
 
     public void removeFriend(Integer friendUserId) throws SQLException {
@@ -389,6 +394,7 @@ public class User extends Model {
         statement.setInt(3, this.userId);
         statement.setInt(4, friendUserId);
         statement.executeUpdate();
+        statement.close();
     }
 
     public void deniedFriendRequest(Integer requestUserId) throws SQLException {
@@ -419,6 +425,8 @@ public class User extends Model {
         while (result.next()) {
             history.add(result.getDate("contaminated_at"));
         }
+        statement.close();
+        result.close();
         return history;
     }
 
