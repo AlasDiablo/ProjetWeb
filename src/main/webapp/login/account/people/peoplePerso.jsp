@@ -38,8 +38,13 @@
             <p>Mon mail : <b><%= user.getEmail() %></b></p>
             <p>Ma date de naissance : <b><%= user.getBorn() %></b></p>
 
-            <a href="perso-mod" class="btn btn-success">Envoyer demande d'ami</a>
-            <!--<a href="#" class="btn btn-danger">Supprimer mon compte</a>-->
+            <% String sessionmail = (String) request.getSession().getAttribute("email");
+            if(sessionmail != null) {%>
+                <form action="\people-pers?mail=<%=user.getEmail()%>" method="post">
+                    <button type="submit" class="btn btn-success">Envoyer demande d'ami</button>
+                </form>
+            <% } %>
+            <!--<a href="people-pers" class="btn btn-success">Envoyer demande d'ami</a>-->
         </div>
     </div>
 </div>

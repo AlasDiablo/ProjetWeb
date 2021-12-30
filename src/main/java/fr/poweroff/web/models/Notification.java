@@ -7,6 +7,8 @@ import org.jetbrains.annotations.Nullable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Notification extends Model {
 
@@ -45,6 +47,20 @@ public class Notification extends Model {
         }
         result.close();
         return notification;
+    }
+
+    public static @Nullable List<Integer> getNotification(Integer userId) throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "select * from user_notification where user_id=?"
+        );
+        statement.setInt(1, userId);
+        ResultSet    result       = statement.executeQuery();
+        List<Integer> notifications = new ArrayList<>();
+        while (result.next()) {
+            notifications.add(result.getInt("notification_id"));
+        }
+        result.close();
+        return notifications;
     }
 
     @Contract(" -> new")
@@ -92,12 +108,45 @@ public class Notification extends Model {
         this.content = content;
     }
 
+    public boolean getUnRead() {
+        return this.unRead;
+    }
+
     public User getTarget() {
         return target;
     }
 
     public void setTarget(User target) {
         this.target = target;
+    }
+
+
+    public void saveAmi() throws SQLException, IllegalStateException {
+        super.save();
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "insert into notification(content, un_read) value (?, ?)"
+        );
+        this.setValueToQuery(statement);
+        statement.executeUpdate();
+        statement.close();
+        System.out.println("TEST");
+        PreparedStatement statementId = DataBase.CONNECTION.prepareStatement(
+                "select notification_id from notification"
+        );
+        ResultSet    result       = statementId.executeQuery();
+        Integer notif_id = 0;
+        while (result.next()) {
+            notif_id = result.getInt("notification_id");
+        }
+        statementId.close();
+        PreparedStatement statementJoin = DataBase.CONNECTION.prepareStatement(
+                "insert into user_notification(notification_id, user_id) value (?, ?)"
+        );
+        statementJoin.setInt(1, notif_id);
+        statementJoin.setInt(2, this.target.getUserId());
+        statementJoin.executeUpdate();
+        statementJoin.close();
+        System.out.println("TEST");
     }
 
     @Override

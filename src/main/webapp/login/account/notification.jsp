@@ -1,6 +1,9 @@
 <%@ page import="fr.poweroff.web.models.User" %>
 <%@ page import="org.springframework.security.crypto.bcrypt.BCrypt" %>
-<%@ page import="java.sql.SQLException" %><%--
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="fr.poweroff.web.models.Notification" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: e_bon
   Date: 27/12/2021
@@ -19,11 +22,24 @@
     //Récupérations des notifications de la personne.
     session = request.getSession(true);
     String mail = String.valueOf(session.getAttribute("email"));
-    User user;
+
+    //Recup user
+    User user = null;
     try {
         //Verfication de l'identifiant et du mot de passe
         user = User.getFirst(mail);
         assert user != null;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    Notification notification;
+    List<Integer> notifs = new ArrayList<>();
+    try {
+        notification = Notification.create();
+        notifs = Notification.getNotification(user.getUserId());
+        assert notification != null;
 
     } catch (SQLException e) {
         e.printStackTrace();
@@ -33,10 +49,14 @@
     <h1 class="display-1 text-center">Notifications</h1>
 
     <div class="list-group">
-        <a href="#" role="button" type="button" class="list-group-item list-group-item-action list-group-item-info">Test</a>
-        <a href="#" role="button" type="button" class="list-group-item list-group-item-action list-group-item-info">Test</a>
-        <a href="#" role="button" type="button" class="list-group-item list-group-item-action">Test</a>
-        <a href="#" role="button" type="button" class="list-group-item list-group-item-action">Test</a>
+        <%
+            assert notifs != null;
+            for(Integer i : notifs){
+                notification = Notification.getFirst(i);
+                if(!notification.getUnRead()){ %>
+                    <a href="#" role="button" type="button" class="list-group-item list-group-item-action list-group-item-info"><%= notification.getContent() %></a>
+                <%}
+            }%>
     </div>
 </div>
 </body>

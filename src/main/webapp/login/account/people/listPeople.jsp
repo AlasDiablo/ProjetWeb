@@ -21,7 +21,8 @@
     List<User> user = null;
     List<User> userN = null;
     List<User> userLN = null;
-    System.out.println(people);
+    String sessionmail = (String) request.getSession().getAttribute("email");
+    //System.out.println(sessionmail);
     try {
         //Verifiacation si une donnée a été donné
         if(people == "")
@@ -41,18 +42,21 @@
     <h1 class="display-1 text-center">Peoples</h1>
 
     <div class="list-group">
-        <% for (User u: user) { %>
-            <a href="people-pers?mail=<%= u.getEmail() %>" role="button" type="button" class="list-group-item list-group-item-action"><%= u.getFirstname() %> <%= u.getLastname() %> <%= u.getEmail() %></a>
-        <% } %>
-        <% if(userN != null ){
-            for (User u: userN) { %>
+        <% for (User u: user) {
+            if(!u.getEmail().equals(sessionmail)){%>
                 <a href="people-pers?mail=<%= u.getEmail() %>" role="button" type="button" class="list-group-item list-group-item-action"><%= u.getFirstname() %> <%= u.getLastname() %> <%= u.getEmail() %></a>
-        <% }
+        <% }} %>
+        <% if(userN != null ){
+            for (User u: userN) {
+                if(!u.getEmail().equals(sessionmail)){%>
+                    <a href="people-pers?mail=<%= u.getEmail() %>" role="button" type="button" class="list-group-item list-group-item-action"><%= u.getFirstname() %> <%= u.getLastname() %> <%= u.getEmail() %></a>
+        <% }}
         } %>
         <% if(userLN != null ){
-            for (User u: userLN) { %>
-        <a href="people-pers?mail=<%= u.getEmail() %>" role="button" type="button" class="list-group-item list-group-item-action"><%= u.getFirstname() %> <%= u.getLastname() %> <%= u.getEmail() %></a>
-        <% }
+            for (User u: userLN) {
+                if(!u.getEmail().equals(sessionmail)){%>
+                    <a href="people-pers?mail=<%= u.getEmail() %>" role="button" type="button" class="list-group-item list-group-item-action"><%= u.getFirstname() %> <%= u.getLastname() %> <%= u.getEmail() %></a>
+        <% }}
         } %>
     </div>
 </div>
