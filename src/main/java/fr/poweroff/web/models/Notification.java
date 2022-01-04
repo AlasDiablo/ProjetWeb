@@ -203,7 +203,7 @@ public class Notification extends Model {
 
     @Override
     protected void checkIntegrity(boolean isSave) throws IllegalStateException {
-        if (this.content == null || this.unRead) {
+        if (this.content == null) {
             throw new IllegalStateException("Notification component can't be null");
         }
         if (!isSave && this.notificationId == null) {

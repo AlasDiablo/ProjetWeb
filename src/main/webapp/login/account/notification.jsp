@@ -13,7 +13,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>Compte</title>
+    <title>Notifications</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -54,7 +54,7 @@
             for(Integer i : notifs){
                 notification = Notification.getFirst(i);
                 if(!notification.getUnRead()){ %>
-                    <a href="#" role="button" type="button" class="list-group-item list-group-item-action list-group-item-info"><%= notification.getContent() %></a>
+                    <a href="notif-visu?id=<%= notification.getNotificationId() %>" role="button" type="button" class="list-group-item list-group-item-action list-group-item-info"><%= notification.getContent() %></a>
                 <%}
             }%>
     </div>
