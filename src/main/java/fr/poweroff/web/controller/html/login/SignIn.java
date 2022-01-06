@@ -34,7 +34,10 @@ public class SignIn extends HttpServlet {
                 User user = User.getFirst(mail);
                 assert user != null;
                 if (BCrypt.checkpw(password, user.getPasswordHash())) {
-                    response.sendRedirect("hello-servlet");
+                    response.sendRedirect(this.getServletContext().getContextPath() + Registries.PATH_ACCOUNT);
+                } else {
+                    response.sendRedirect(this.getServletContext().getContextPath() + Registries.PATH_SIGN_IN);
+                    return;
                 }
 
                 //Creation de la session
@@ -43,8 +46,6 @@ public class SignIn extends HttpServlet {
                 session.setAttribute("lastName", user.getLastname());
                 session.setAttribute("name", user.getFirstname());
                 session.setAttribute("email", user.getEmail());
-
-                response.sendRedirect(this.getServletContext().getContextPath() + Registries.PATH_ACCOUNT);
             } catch (SQLException ignored) {
                 throw new RuntimeException();
             }

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "Account - Personal information", value = Registries.JSP_ACCOUNT_INFO)
+@WebServlet(name = "Account - Personal information", value = Registries.PATH_ACCOUNT_INFO)
 public class Perso extends HttpServlet {
 
     @Override
