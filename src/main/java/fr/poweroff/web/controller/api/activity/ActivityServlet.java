@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import fr.poweroff.web.Registries;
 import fr.poweroff.web.models.Activity;
 import fr.poweroff.web.models.Place;
 import fr.poweroff.web.models.User;
@@ -26,7 +27,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "API Activity", value = "/api/activity")
+@SuppressWarnings("UnstableApiUsage")
+@WebServlet(name = "API Activity", value = Registries.PATH_API_ACTIVITY)
 public class ActivityServlet extends HttpServlet {
 
     @Override
@@ -51,7 +53,6 @@ public class ActivityServlet extends HttpServlet {
             );
             return;
         }
-
 
         try {
             List<Activity> activities = user.getActivities();
