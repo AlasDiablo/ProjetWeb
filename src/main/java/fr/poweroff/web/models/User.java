@@ -308,8 +308,8 @@ public class User extends Model {
         while (result.next()) {
             activities.add(new Activity(
                     result.getInt("activity_id"),
-                    result.getDate("start_at"),
-                    result.getDate("end_at"),
+                    result.getTimestamp("start_at"),
+                    result.getTimestamp("end_at"),
                     result.getString("city")
             ));
         }

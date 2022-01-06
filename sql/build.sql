@@ -16,12 +16,12 @@ create table contaminated
     constraint fk_contaminated foreign key (user_id) references user (user_id) on delete cascade
 );
 
-create table activity (
-    activity_id int auto_increment,
-    start_at date,
-    end_at date,
-    city text,
-    constraint pk_activity primary key (activity_id)
+create table activity(
+                         activity_id int auto_increment,
+                         start_at    datetime,
+                         end_at      datetime,
+                         city        text,
+                         constraint pk_activity primary key (activity_id)
 );
 
 create table user_activity

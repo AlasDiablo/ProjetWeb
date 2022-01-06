@@ -8,6 +8,7 @@ import com.google.gson.JsonParser;
 import fr.poweroff.web.models.Activity;
 import fr.poweroff.web.models.Place;
 import fr.poweroff.web.models.User;
+import org.jetbrains.annotations.NotNull;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,8 +19,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +30,7 @@ import java.util.stream.Collectors;
 public class ActivityServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(@NotNull HttpServletRequest req, @NotNull HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(MediaType.JSON_UTF_8.toString());
         HttpSession session = req.getSession(false);
         if (session == null) {
@@ -52,8 +55,9 @@ public class ActivityServlet extends HttpServlet {
 
         try {
             List<Activity> activities = user.getActivities();
-            Date           start      = Date.valueOf(req.getParameter("start").substring(0, 10));
-            Date           end        = Date.valueOf(req.getParameter("end").substring(0, 10));
+            DateFormat     formatter  = new SimpleDateFormat("yyyy-MM-dd");
+            Date           start      = formatter.parse(req.getParameter("start").substring(0, 10));
+            Date           end        = formatter.parse(req.getParameter("end").substring(0, 10));
             List<Activity> filteredActivities = activities.stream().filter(
                     activity -> activity.getStartAt().after(start) && activity.getEndAt().before(end)
             ).collect(Collectors.toList());

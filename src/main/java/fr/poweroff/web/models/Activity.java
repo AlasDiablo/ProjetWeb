@@ -4,10 +4,11 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class Activity extends Model {
 
@@ -57,8 +58,8 @@ public class Activity extends Model {
         if (result.next()) {
             activity = new Activity(
                     activityId,
-                    result.getDate("start_at"),
-                    result.getDate("end_at"),
+                    result.getTimestamp("start_at"),
+                    result.getTimestamp("end_at"),
                     result.getString("city")
             );
         }
@@ -144,8 +145,8 @@ public class Activity extends Model {
 
     @Override
     protected void setValueToQuery(@NotNull PreparedStatement statement) throws SQLException {
-        statement.setDate(1, this.startAt);
-        statement.setDate(2, this.endAt);
+        statement.setTimestamp(1, new Timestamp(this.startAt.getTime()));
+        statement.setTimestamp(2, new Timestamp(this.endAt.getTime()));
         statement.setString(3, this.city);
     }
 

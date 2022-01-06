@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 @WebServlet(name = "AddActivity", value = "/add-activity")
 public class AddActivity extends HttpServlet {
@@ -36,13 +38,21 @@ public class AddActivity extends HttpServlet {
             resp.setStatus(401);
             return;
         }
-        String   address  = req.getParameter("address");
-        String   startAt  = req.getParameter("start_at");
-        String   endAt    = req.getParameter("end_at");
-        Activity activity = Activity.create();
-        activity.setStartAt(Date.valueOf(startAt));
-        activity.setEndAt(Date.valueOf(endAt));
+        String     address   = req.getParameter("address");
+        String     startAt   = req.getParameter("start_at");
+        String     endAt     = req.getParameter("end_at");
+        Activity   activity  = Activity.create();
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm");
+
+        try {
+            activity.setStartAt(formatter.parse(startAt));
+            activity.setEndAt(formatter.parse(endAt));
+        } catch (ParseException e) {
+            throw new RuntimeException();
+        }
+
         activity.setCity(Place.search(address).getAsJsonArray().get(0).getAsJsonObject().get("coordinates").getAsJsonArray().toString());
+
         try {
             activity.setOwner(User.getFirst(session.getAttribute("email").toString()));
             activity.save();

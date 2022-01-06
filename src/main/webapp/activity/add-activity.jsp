@@ -26,10 +26,10 @@
 
         <div class="form-group">
             <label for="start_at">Arrivé *</label>
-            <input type="date" id="start_at" name="start_at" required>
+            <input type="datetime-local" id="start_at" name="start_at" required>
 
             <label for="end_at">Départ *</label>
-            <input type="date" id="end_at" name="end_at" required>
+            <input type="datetime-local" id="end_at" name="end_at" required>
         </div>
 
 
