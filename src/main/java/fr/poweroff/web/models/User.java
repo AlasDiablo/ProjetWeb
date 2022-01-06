@@ -341,6 +341,27 @@ public class User extends Model {
         return friends;
     }
 
+    public List<User> getFriends2() throws SQLException {
+        List<User> friends = new ArrayList<>();
+        PreparedStatement statementFriendsLeft = DataBase.CONNECTION.prepareStatement(
+                "select * from user inner join friends on user.user_id = friends.user_1 where accepted = false and user_2 = ?"
+        );
+        PreparedStatement statementFriendsRight = DataBase.CONNECTION.prepareStatement(
+                "select * from user inner join friends on user.user_id = friends.user_2 where accepted = false and user_1 = ?"
+        );
+        statementFriendsLeft.setInt(1, this.userId);
+        statementFriendsRight.setInt(1, this.userId);
+        ResultSet resultLeft  = statementFriendsLeft.executeQuery();
+        ResultSet resultRight = statementFriendsRight.executeQuery();
+        this.readFriends(friends, resultLeft);
+        this.readFriends(friends, resultRight);
+        statementFriendsLeft.close();
+        statementFriendsRight.close();
+        resultLeft.close();
+        resultRight.close();
+        return friends;
+    }
+
     public List<User> getIngoingFriendsRequest() throws SQLException {
         List<User> ingoingFriends = new ArrayList<>();
         PreparedStatement statementIngoingFriends = DataBase.CONNECTION.prepareStatement(

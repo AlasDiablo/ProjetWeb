@@ -27,22 +27,59 @@
     <div class="card">
         <h5 class="card-header">Données personnelles</h5>
         <div class="card-body">
-            <p>Mon prénom : <b><%= user.getFirstname() %>
+            <p>Prénom : <b><%= user.getFirstname() %>
             </b></p>
-            <p>Mon nom : <b><%= user.getLastname() %>
+            <p>Nom : <b><%= user.getLastname() %>
             </b></p>
-            <p>Mon mail : <b><%= user.getEmail() %>
+            <p>Mail : <b><%= user.getEmail() %>
             </b></p>
-            <p>Ma date de naissance : <b><%= user.getBorn() %>
+            <p>Date de naissance : <b><%= user.getBorn() %>
             </b></p>
 
             <% String sessionmail = (String) request.getSession().getAttribute("email");
-                if (sessionmail != null) {%>
-            <form action="${pageContext.request.contextPath}<%=Registries.PATH_PEOPLE_ABOUT%>?mail=<%=user.getEmail()%>"
-                  method="post">
-                <button type="submit" class="btn btn-success">Envoyer demande d'ami</button>
-            </form>
-            <% } %>
+                //Verification qu'une personne est connectée
+                if (sessionmail != null) {
+                    User userP = User.create();
+                    List<User> userList = null;
+                    List<User> userList1 = null;
+                    try {
+                        userP = User.getFirst(sessionmail);
+                        assert userP != null;
+                        userList = userP.getFriends();
+                        userList1 = userP.getFriends2();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                    boolean ami = false;
+                    boolean valide = false;
+                    for (User u: userList) {
+                        if (!u.getEmail().equals(sessionmail)) {
+                            if(u.getEmail().equals(user.getEmail())){
+                                ami = true;
+                            }
+                        }
+                    }
+                    for(User u : userList1){
+                        if (!u.getEmail().equals(sessionmail)) {
+                            if(u.getEmail().equals(user.getEmail())){
+                                valide = true;
+                            }
+                        }
+                    }
+            %>
+
+                    <form action="${pageContext.request.contextPath}<%=Registries.PATH_PEOPLE_ABOUT%>?mail=<%=user.getEmail()%>"
+                          method="post">
+                        <% if(!ami && !valide){ %>
+                            <button type="submit" class="btn btn-success">Envoyer demande d'ami</button>
+                        <% } else
+                            if(!valide){
+                            %>
+                            <button type="button" class="btn btn-danger">Supprimer de ses amis</button>
+                        <%}%>
+                    </form>
+                <% } %>
             <!--<a href="people-pers" class="btn btn-success">Envoyer demande d'ami</a>-->
         </div>
     </div>
