@@ -54,7 +54,7 @@ public class Notification extends Model {
                 "select * from user_notification where user_id=?"
         );
         statement.setInt(1, userId);
-        ResultSet    result       = statement.executeQuery();
+        ResultSet     result        = statement.executeQuery();
         List<Integer> notifications = new ArrayList<>();
         while (result.next()) {
             notifications.add(result.getInt("notification_id"));
@@ -80,10 +80,6 @@ public class Notification extends Model {
 
     public Boolean isUnRead() {
         return unRead;
-    }
-
-    public void setUnRead(Boolean unRead) {
-        this.unRead = unRead;
     }
 
     public Integer getNotificationId() {
@@ -112,6 +108,10 @@ public class Notification extends Model {
         return this.unRead;
     }
 
+    public void setUnRead(Boolean unRead) {
+        this.unRead = unRead;
+    }
+
     public User getTarget() {
         return target;
     }
@@ -133,8 +133,8 @@ public class Notification extends Model {
         PreparedStatement statementId = DataBase.CONNECTION.prepareStatement(
                 "select notification_id from notification"
         );
-        ResultSet    result       = statementId.executeQuery();
-        Integer notif_id = 0;
+        ResultSet result   = statementId.executeQuery();
+        Integer   notif_id = 0;
         while (result.next()) {
             notif_id = result.getInt("notification_id");
         }

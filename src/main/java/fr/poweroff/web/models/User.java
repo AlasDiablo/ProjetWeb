@@ -120,6 +120,7 @@ public class User extends Model {
      * Recherche de tous les utilisateurs
      *
      * @param firstname le prenom de la personne a chercher
+     *
      * @return liste des utilisateurs
      *
      * @throws SQLException error when PreparedStatement fail
@@ -139,6 +140,7 @@ public class User extends Model {
      * Recherche de tous les utilisateurs
      *
      * @param lastname le nom de la personne recherchée
+     *
      * @return liste des utilisateurs
      *
      * @throws SQLException error when PreparedStatement fail

@@ -53,14 +53,14 @@ public class NotificationVisu extends HttpServlet {
 
 
         HttpSession session = request.getSession();
-        User user1 = null;
+        User        user1   = null;
         try {
             user1 = User.getFirst((String) session.getAttribute("email"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        if (demande.equals("true")){
+        if (demande.equals("true")) {
             //Ajout de la personne en ami
 
             try {
@@ -71,7 +71,7 @@ public class NotificationVisu extends HttpServlet {
                 e.printStackTrace();
             }
 
-        }else{
+        } else {
             //Supression de la personne en ami temp
 
             try {

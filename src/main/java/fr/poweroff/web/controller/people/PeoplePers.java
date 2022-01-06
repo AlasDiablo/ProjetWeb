@@ -42,7 +42,8 @@ public class PeoplePers extends HttpServlet {
             e.printStackTrace();
         }
         //Création de la notification
-        notif.setContent(request.getSession().getAttribute("email").toString() + " vous a envoyé une demande d'ami. Vous pouvez accepter ou refuser la demande.");
+        notif.setContent(
+                request.getSession().getAttribute("email").toString() + " vous a envoyé une demande d'ami. Vous pouvez accepter ou refuser la demande.");
         notif.setTarget(user);
         notif.setUnRead(false);
 
