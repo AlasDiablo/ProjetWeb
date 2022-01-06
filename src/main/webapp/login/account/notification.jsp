@@ -2,8 +2,7 @@
 <%@ page import="org.springframework.security.crypto.bcrypt.BCrypt" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="fr.poweroff.web.models.Notification" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.*" %><%--
   Created by IntelliJ IDEA.
   User: e_bon
   Date: 27/12/2021
@@ -38,6 +37,7 @@
     List<Integer> notifs = new ArrayList<>();
     try {
         notification = Notification.create();
+        assert user != null;
         notifs = Notification.getNotification(user.getUserId());
         assert notification != null;
 
@@ -51,10 +51,13 @@
     <div class="list-group">
         <%
             assert notifs != null;
+            java.util.Collections.reverse(notifs);
             for(Integer i : notifs){
                 notification = Notification.getFirst(i);
                 if(!notification.getUnRead()){ %>
                     <a href="notif-visu?id=<%= notification.getNotificationId() %>" role="button" type="button" class="list-group-item list-group-item-action list-group-item-info"><%= notification.getContent() %></a>
+                <%} else {%>
+                    <a href="notif-visu?id=<%= notification.getNotificationId() %>" role="button" type="button" class="list-group-item list-group-item-action list-group-item"><%= notification.getContent() %></a>
                 <%}
             }%>
     </div>
