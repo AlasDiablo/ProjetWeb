@@ -9,10 +9,10 @@ if (theme === undefined || theme === null) {
 const head = $('head');
 switch (theme) {
     case "lumen":
-        head.append('<link rel="stylesheet" href="https://bootswatch.com/5/lumen/bootstrap.min.css">');
+        head.append('<link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css">');
         break;
     case "solar":
-        head.append('<link rel="stylesheet" href="https://bootswatch.com/5/solar/bootstrap.min.css">');
+        head.append('<link rel="stylesheet" href="https://bootswatch.com/4/solar/bootstrap.min.css">');
         break;
 }
 
