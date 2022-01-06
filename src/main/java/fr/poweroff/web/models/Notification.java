@@ -129,7 +129,6 @@ public class Notification extends Model {
         this.setValueToQuery(statement);
         statement.executeUpdate();
         statement.close();
-        System.out.println("TEST");
         PreparedStatement statementId = DataBase.CONNECTION.prepareStatement(
                 "select notification_id from notification"
         );
@@ -146,7 +145,6 @@ public class Notification extends Model {
         statementJoin.setInt(2, this.target.getUserId());
         statementJoin.executeUpdate();
         statementJoin.close();
-        System.out.println("TEST");
     }
 
     @Override

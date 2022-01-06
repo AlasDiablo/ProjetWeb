@@ -8,7 +8,7 @@
     <form name="inscription" action="${pageContext.request.contextPath}<%=Registries.PATH_ADD_ACTIVITY%>" method="post">
 
         <div class="form-group">
-            <label for="address">Addresse (attention l'addresse doit avoir un format valide (utilisé l'auto complétion))
+            <label for="address">Adresse (attention l'adresse doit avoir un format valide (utilisé l'auto complétion))
                 *</label>
             <input type="text" class="form-control" id="address" aria-describedby="address" name="address" required>
             <div id="search-address" class="text-center">

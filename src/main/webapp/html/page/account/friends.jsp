@@ -11,9 +11,33 @@
     <h1 class="display-1 text-center">Mes Amis</h1>
 
     <div class="list-group">
-        <% %>
+        <%
+            User us = User.create();
+            List<User> user = null;
+            String sessionmail = (String) request.getSession().getAttribute("email");
+            //System.out.println(sessionmail);
+            try {
+                //Verifiacation si une donnée a été donné
+                us = User.getFirst(sessionmail);
+                user = us.getFriends();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            assert user != null;
+
+            for (User u: user) {
+            if (!u.getEmail().equals(sessionmail)) {%>
+        <a href="${pageContext.request.contextPath}<%=Registries.PATH_PEOPLE_ABOUT%>?mail=<%= u.getEmail() %>"
+           role="button" type="button"
+           class="list-group-item list-group-item-action"><%= u.getFirstname() %> <%= u.getLastname() %> <%= u.getEmail() %>
+        </a>
+        <% }
+        } %>
+
+        <!--<% %>
         <button type="button" class="list-group-item list-group-item-action"></button>
-        <% %>
+        <% %>-->
     </div>
 </div>
 <script>
