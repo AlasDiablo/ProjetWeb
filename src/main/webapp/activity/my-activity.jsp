@@ -28,12 +28,13 @@
                     right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                 },
                 locale: 'fr',
-                buttonIcons: false, // show the prev/next text
+                buttonIcons: false,
                 weekNumbers: true,
-                navLinks: true, // can click day/week names to navigate views
+                navLinks: true,
                 editable: false,
                 droppable: false,
-                dayMaxEvents: true, // allow "more" link when too many events
+                dayMaxEvents: true,
+                // themeSystem: 'lumen',
                 events: '${pageContext.request.contextPath}/api/activity'
             });
             calendar.render();
@@ -41,7 +42,14 @@
     </script>
 </head>
 <body>
-<a class="btn btn-success" href="${pageContext.request.contextPath}/add-activity">Ajouté un activité</a>
-<div id='calendar'></div>
+<%@ include file="../menu.jsp" %>
+<div class="p-5">
+    <a class="btn btn-success ms-5" href="${pageContext.request.contextPath}/add-activity">Ajouté un activité</a>
+    <div class="p-5">
+        <div id='calendar'></div>
+    </div>
+</div>
+
+
 </body>
 </html>

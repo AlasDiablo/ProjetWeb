@@ -50,6 +50,15 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Mes activités</h5>
+                    <p class="card-text">Visualisation et ajout de vos activités.</p>
+                    <a href="${pageContext.request.contextPath}/my-activity" class="btn btn-primary">Acceder</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>

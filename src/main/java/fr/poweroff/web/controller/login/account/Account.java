@@ -13,12 +13,9 @@ public class Account extends HttpServlet {
         response.setContentType("text/html");
 
         this.getServletContext().getRequestDispatcher("/login/account/account.jsp").forward(request, response);
-
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-
         response.sendRedirect("hello-servlet");
     }
 }
