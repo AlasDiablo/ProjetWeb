@@ -5,6 +5,39 @@
          version="4.0">
     <error-page>
         <error-code>404</error-code>
-        <location>/404.jsp</location>
+        <location>/html/error/404.jsp</location>
     </error-page>
+
+    <error-page>
+        <error-code>401</error-code>
+        <location>/html/error/401.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/html/error/404.jsp</location> <!-- we hide the 403 error by a 404 error -->
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/html/error/500.jsp</location>
+    </error-page>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>no_access</web-resource-name>
+            <url-pattern>/html/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>DELETE</http-method>
+            <http-method>UPDATE</http-method>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-role>
+        <role-name>admin</role-name>
+    </security-role>
 </web-app>

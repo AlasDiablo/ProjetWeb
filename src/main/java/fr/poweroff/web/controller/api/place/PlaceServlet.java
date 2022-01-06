@@ -5,7 +5,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import fr.poweroff.web.Registries;
 import fr.poweroff.web.models.Place;
+import org.jetbrains.annotations.NotNull;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,11 +19,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
 
-@WebServlet(name = "API Place", value = "/api/place")
+@SuppressWarnings("UnstableApiUsage")
+@WebServlet(name = "API Place", value = Registries.PATH_API_PLACE)
 public class PlaceServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(@NotNull HttpServletRequest req, @NotNull HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType(MediaType.JSON_UTF_8.toString());
         String type = req.getParameter("type");
 
