@@ -10,5 +10,5 @@
 <head>
     <%@ include file="/html/head.jsp" %>
 </head>
-<body style="padding-top: 4.5rem;">
+<body class="d-flex flex-column h-100" style="padding-top: 4.5rem;">
 <%@ include file="/html/components/nav.jsp" %>

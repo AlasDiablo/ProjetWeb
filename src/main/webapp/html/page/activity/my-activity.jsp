@@ -10,7 +10,7 @@
 <div class="p-5">
     <a class="btn btn-success ms-5" href="${pageContext.request.contextPath}<%=Registries.PATH_ADD_ACTIVITY%>">Ajouté un
         activité</a>
-    <div class="p-5 w-75 h-75 m-auto">
+    <div class="p-5 w-75 m-auto">
         <div id="calendar"></div>
     </div>
 </div>

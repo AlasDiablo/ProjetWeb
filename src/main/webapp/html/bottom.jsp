@@ -6,14 +6,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<br>
-<br>
-<div class="sticky-bottom">
-    <div class="jumbotron">
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
         <p class="lead">L'équipe en charge de ce site vous remercie de votre confience et espère que le site sera adapté à vos attentes.</p>
         <hr class="my-4">
         <p>Ce site ne donne pas d'information sur la covid. Pour des renseignements, il vous est conseillé de vous rendre sur le <a href="https://www.gouvernement.fr/info-coronavirus">site officiel du gouvernement</a>.</p>
+
     </div>
-</div>
+</footer>
 </body>
 </html>
