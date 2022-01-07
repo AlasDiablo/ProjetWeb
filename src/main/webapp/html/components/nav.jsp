@@ -130,7 +130,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">NON</button>
-                <button type="button" class="btn btn-success">OUI</button>
+                <a type="button" class="btn btn-success" href="${pageContext.request.contextPath}<%=Registries.PATH_POSITIF%>">OUI</a>
             </div>
         </div>
     </div>
