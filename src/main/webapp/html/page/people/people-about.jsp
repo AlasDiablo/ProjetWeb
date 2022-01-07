@@ -69,16 +69,18 @@
                     }
             %>
 
-                    <form action="${pageContext.request.contextPath}<%=Registries.PATH_PEOPLE_ABOUT%>?mail=<%=user.getEmail()%>"
-                          method="post">
+
                         <% if(!ami && !valide){ %>
-                            <button type="submit" class="btn btn-success">Envoyer demande d'ami</button>
+                            <form action="${pageContext.request.contextPath}<%=Registries.PATH_PEOPLE_ABOUT%>?mail=<%=user.getEmail()%>&etat=add" method="post">
+                                <button type="submit" class="btn btn-success">Envoyer demande d'ami</button>
+                            </form>
                         <% } else
-                            if(!valide){
-                            %>
-                            <button type="button" class="btn btn-danger">Supprimer de ses amis</button>
+                        if(!valide){
+                        %>
+                            <form action="${pageContext.request.contextPath}<%=Registries.PATH_PEOPLE_ABOUT%>?mail=<%=user.getEmail()%>&etat=remove" method="post">
+                                <button type="submit" class="btn btn-danger">Supprimer de ses amis</button>
+                            </form>
                         <%}%>
-                    </form>
                 <% } %>
             <!--<a href="people-pers" class="btn btn-success">Envoyer demande d'ami</a>-->
         </div>

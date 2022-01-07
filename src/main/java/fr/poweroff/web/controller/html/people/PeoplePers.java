@@ -28,7 +28,12 @@ public class PeoplePers extends HttpServlet {
 
         String mail = request.getParameter("mail");
         request.setAttribute("mail", mail);
-        //User c'est la personne a qui envoyer la notification
+
+        String etat =request.getParameter("etat");
+        request.setAttribute("etat", etat);
+
+
+        //User personne a qui envoyer la notification
         User user = null;
         try {
             user = User.getFirst(mail);
@@ -37,16 +42,66 @@ public class PeoplePers extends HttpServlet {
         }
 
         Notification notif = Notification.create();
-        try {
-            this.getServletContext().getRequestDispatcher(Registries.JSP_PEOPLES).forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
+
+        Notification notifi = Notification.create();
+
+
+        if(etat.equals("add")){
+            System.out.println("ADD");
+            //Création de la notification
+            notif.setContent(
+                    request.getSession().getAttribute("email").toString() + " vous a envoyé une demande d'ami. Vous pouvez accepter ou refuser la demande.");
+            notif.setTarget(user);
+            notif.setUnRead(false);
+
+
+            User userSession = null;
+            try {
+                userSession = User.getFirst(request.getSession().getAttribute("email").toString());
+                assert userSession != null;
+                assert user != null;
+                userSession.sendFriendRequest(user.getUserId());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        //Création de la notification
-        notif.setContent(
-                request.getSession().getAttribute("email").toString() + " vous a envoyé une demande d'ami. Vous pouvez accepter ou refuser la demande.");
-        notif.setTarget(user);
-        notif.setUnRead(false);
+        else{
+            System.out.println("REMOVE");
+            notif.setContent("Vous n'êtes désormais plus amis avec : "+
+                    request.getSession().getAttribute("email").toString() + ".");
+            notif.setTarget(user);
+            notif.setUnRead(false);
+
+
+            notifi.setContent("Vous n'êtes désormais plus amis avec : "+
+                    user.getEmail() + ".");
+            try {
+                notifi.setTarget(User.getFirst(request.getSession().getAttribute("email").toString()));
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            notifi.setUnRead(false);
+
+            //Enregistrement de la notification
+            try {
+                notifi.saveAmi();
+            } catch (SQLException | IllegalStateException e) {
+                e.printStackTrace();
+            }
+
+
+            User userSession = null;
+            try {
+                userSession = User.getFirst(request.getSession().getAttribute("email").toString());
+                assert userSession != null;
+                assert user != null;
+                userSession.removeFriend(user.getUserId());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+
 
         //Enregistrement de la notification
         try {
@@ -55,16 +110,12 @@ public class PeoplePers extends HttpServlet {
             e.printStackTrace();
         }
 
-        User userSession = null;
+
         try {
-            userSession = User.getFirst(request.getSession().getAttribute("email").toString());
-            assert userSession != null;
-            assert user != null;
-            userSession.sendFriendRequest(user.getUserId());
-        } catch (SQLException e) {
+            this.getServletContext().getRequestDispatcher(Registries.JSP_PEOPLES).forward(request, response);
+        } catch (ServletException e) {
             e.printStackTrace();
         }
-
 
         response.sendRedirect(this.getServletContext().getContextPath() + Registries.PATH_INDEX);
     }
