@@ -99,11 +99,13 @@
 
 
             </li>
+            <button class="btn btn-outline-danger" type="button" data-toggle="modal" data-target="#modalConfirm">Je suis positif à la COVID</button>
 
             <%
                 }
             %>
         </ul>
+
         <form class="d-flex" action="${pageContext.request.contextPath}<%=Registries.PATH_PEOPLES%>"
               method="post">
             <input class="form-control me-2" type="search" placeholder="People" name="people" aria-label="Search">
@@ -111,3 +113,25 @@
         </form>
     </div>
 </nav>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalConfirm" tabindex="-1" aria-labelledby="modalConfirmLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalConfirmLabel">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Etes-vous bien positif à la Covid ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">NON</button>
+                <button type="button" class="btn btn-success">OUI</button>
+            </div>
+        </div>
+    </div>
+</div>
