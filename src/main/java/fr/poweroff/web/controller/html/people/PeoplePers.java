@@ -47,7 +47,6 @@ public class PeoplePers extends HttpServlet {
 
 
         if(etat.equals("add")){
-            System.out.println("ADD");
             //Création de la notification
             notif.setContent(
                     request.getSession().getAttribute("email").toString() + " vous a envoyé une demande d'ami. Vous pouvez accepter ou refuser la demande.");
@@ -66,7 +65,6 @@ public class PeoplePers extends HttpServlet {
             }
         }
         else{
-            System.out.println("REMOVE");
             notif.setContent("Vous n'êtes désormais plus amis avec : "+
                     request.getSession().getAttribute("email").toString() + ".");
             notif.setTarget(user);
