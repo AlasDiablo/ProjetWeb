@@ -45,7 +45,7 @@
         <div class="col-sm-6 p-2">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Theme du site</h5>
+                    <h5 class="card-title">Thèmes du site</h5>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="flexRadioDefault"
                                onchange="onChangeTheme('lumen')" id="lumen">
@@ -58,6 +58,27 @@
                                onchange="onChangeTheme('solar')" id="solar">
                         <label class="form-check-label" for="solar">
                             Solar
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                               onchange="onChangeTheme('cyborg')" id="cyborg">
+                        <label class="form-check-label" for="cyborg">
+                            Cyborg
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                               onchange="onChangeTheme('minty')" id="minty">
+                        <label class="form-check-label" for="minty">
+                            Minty
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                               onchange="onChangeTheme('sketchy')" id="sketchy">
+                        <label class="form-check-label" for="sketchy">
+                            Sketchy
                         </label>
                     </div>
                 </div>

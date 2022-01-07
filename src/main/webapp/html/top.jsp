@@ -10,5 +10,5 @@
 <head>
     <%@ include file="/html/head.jsp" %>
 </head>
-<body>
+<body style="padding-top: 4.5rem;">
 <%@ include file="/html/components/nav.jsp" %>
