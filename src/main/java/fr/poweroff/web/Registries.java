@@ -23,8 +23,9 @@ public class Registries {
     public static final String JSP_PEOPLE_ABOUT = "/html/page/people/people-about.jsp";
 
     /* * * * * * * * Path to a servlet * * * * * * * */
-    public static final String PATH_API_ACTIVITY = "/api/activity";
-    public static final String PATH_API_PLACE    = "/api/place";
+    public static final String PATH_API_ACTIVITY     = "/api/activity";
+    public static final String PATH_API_PLACE        = "/api/place";
+    public static final String PATH_API_DATA_HISTORY = "/api/public/data/history";
 
     public static final String PATH_INDEX = "/";
 
