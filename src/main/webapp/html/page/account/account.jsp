@@ -104,7 +104,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Informations People</h5>
                     <p class="card-text">Visualisation des informations</p>
-                    <a href="#" class="btn btn-info">Acceder</a>
+                    <a href="${pageContext.request.contextPath}<%=Registries.PATH_ADMIN_CHART%>" class="btn btn-info">Acceder</a>
                 </div>
             </div>
         </div>

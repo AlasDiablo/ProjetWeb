@@ -1,4 +1,4 @@
-package fr.poweroff.web.controller.html.account.admin;
+package fr.poweroff.web.controller.html.admin;
 
 import fr.poweroff.web.Registries;
 import fr.poweroff.web.models.Activity;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
-@WebServlet(name = "Activity - List of all activities", value = Registries.PATH_ADMIN_ACTIVITY)
+@WebServlet(name = "Admin - List of all activities", value = Registries.PATH_ADMIN_ACTIVITY)
 public class AdminActivities extends HttpServlet {
 
     @Override

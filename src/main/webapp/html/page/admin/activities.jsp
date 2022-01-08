@@ -74,6 +74,6 @@
     });
 </script>
 <script>
-    title("List des activités");
+    title("Liste des activités");
 </script>
 <%@ include file="/html/bottom.jsp" %>

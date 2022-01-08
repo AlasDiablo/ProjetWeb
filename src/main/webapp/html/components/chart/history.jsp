@@ -10,58 +10,58 @@
 <div id="history-chart"></div>
 <script>
     vegaEmbed('#history-chart', {
-        $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+        $schema: 'https://vega.github.io/schema/vega-lite/v5.json',
         width: 400,
         height: 300,
         data: {
-            url: "${pageContext.request.contextPath}<%=Registries.PATH_API_DATA_HISTORY%>"
+            url: '${pageContext.request.contextPath}<%=Registries.PATH_API_DATA_HISTORY%>'
         },
         transform: [{
             window: [
                 {
-                    field: "count",
-                    op: "mean",
-                    as: "rolling_mean"
+                    field: 'count',
+                    op: 'mean',
+                    as: 'rolling_mean'
                 }
             ],
             frame: [-15, 15]
         }],
         encoding: {
             x: {
-                field: "date",
-                type: "temporal",
-                title: "Date"
+                field: 'date',
+                type: 'temporal',
+                title: 'Date'
             },
             y: {
-                type: "quantitative",
+                type: 'quantitative',
                 axis: {
-                    title: "Max Contamination and Rolling Mean"
+                    title: 'Max Contamination and Rolling Mean'
                 }
             }
         },
         layer: [
             {
                 mark: {
-                    type: "point",
+                    type: 'point',
                     opacity: 0.3
                 },
                 encoding: {
                     y: {
-                        field: "count",
-                        title: "Max Contamination"
+                        field: 'count',
+                        title: 'Max Contamination'
                     }
                 }
             },
             {
                 mark: {
-                    type: "line",
-                    color: "red",
+                    type: 'line',
+                    color: 'red',
                     size: 3
                 },
                 encoding: {
                     y: {
-                        field: "rolling_mean",
-                        title: "Rolling Mean of Max Contamination"
+                        field: 'rolling_mean',
+                        title: 'Rolling Mean of Max Contamination'
                     }
                 }
             }

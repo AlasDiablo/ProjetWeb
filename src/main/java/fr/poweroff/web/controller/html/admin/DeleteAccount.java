@@ -1,4 +1,4 @@
-package fr.poweroff.web.controller.html.account.admin;
+package fr.poweroff.web.controller.html.admin;
 
 import fr.poweroff.web.Registries;
 import fr.poweroff.web.models.User;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 
-@WebServlet(name = "Delete - Other account", value = Registries.PATH_DELETE_PEOPLE)
+@WebServlet(name = "Admin - Delete account", value = Registries.PATH_DELETE_PEOPLE)
 public class DeleteAccount extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, @NotNull HttpServletResponse response) throws IOException, ServletException {

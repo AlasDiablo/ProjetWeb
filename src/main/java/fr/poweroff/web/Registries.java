@@ -23,12 +23,14 @@ public class Registries {
     public static final String JSP_PEOPLE_ABOUT = "/html/page/people/people-about.jsp";
 
     // admin
-    public static final String JSP_ADMIN_ACTIVITY = "/html/page/activity/activities.jsp";
+    public static final String JSP_ADMIN_ACTIVITY = "/html/page/admin/activities.jsp";
+    public static final String JSP_ADMIN_CHART    = "/html/page/admin/charts.jsp";
 
     /* * * * * * * * Path to a servlet * * * * * * * */
     public static final String PATH_API_ACTIVITY     = "/api/activity";
     public static final String PATH_API_PLACE        = "/api/place";
     public static final String PATH_API_DATA_HISTORY = "/api/public/data/history";
+    public static final String PATH_API_DATA_MAP     = "/api/public/data/map";
 
     public static final String PATH_INDEX = "/";
 
@@ -54,4 +56,5 @@ public class Registries {
     // admin
     public static final String PATH_DELETE_PEOPLE  = "/admin/delete-people";
     public static final String PATH_ADMIN_ACTIVITY = "/admin/activity";
+    public static final String PATH_ADMIN_CHART    = "/admin/chart";
 }

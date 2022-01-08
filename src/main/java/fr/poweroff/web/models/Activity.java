@@ -1,5 +1,6 @@
 package fr.poweroff.web.models;
 
+import fr.poweroff.web.util.Pair;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -87,6 +88,23 @@ public class Activity extends Model {
                     result.getTimestamp("end_at"),
                     result.getString("city"),
                     result.getBoolean("contact")
+            ));
+        }
+        statement.close();
+        result.close();
+        return activities;
+    }
+
+    public static @NotNull List<Pair<Integer, String>> getAllGroupeByCity() throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "select count(city) as count, city from activity group by city"
+        );
+        ResultSet                   result     = statement.executeQuery();
+        List<Pair<Integer, String>> activities = new ArrayList<>();
+        while (result.next()) {
+            activities.add(new Pair<>(
+                    result.getInt("count"),
+                    result.getString("city")
             ));
         }
         statement.close();
