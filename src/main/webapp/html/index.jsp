@@ -11,21 +11,21 @@
     </ol>
     <div class="carousel-inner ">
         <div class="carousel-item active justify-content-center">
-            <img src="${pageContext.request.contextPath}/public/covid_molecule.jpg" class="d-block justify-content-center h-50 w-50" alt="..." style="margin: auto;">
+            <img src="${pageContext.request.contextPath}/public/covid_molecule.jpg" class="d-block justify-content-center h-100 w-50" alt="..." style="margin: auto;">
             <div class="carousel-caption d-none d-md-block">
                 <h5>Empêcher la circulation de la Covid</h5>
                 <p>Le virus touche tout le monde, protégez vous !</p>
             </div>
         </div>
         <div class="carousel-item justify-content-center">
-            <img src="${pageContext.request.contextPath}/public/covid-19_molecule.jpg" class="d-block justify-content-center h-50 w-50" alt="..." style="margin: auto;">
+            <img src="${pageContext.request.contextPath}/public/covid-19_molecule.jpg" class="d-block justify-content-center h-80 w-50" alt="..." style="margin: auto;">
             <div class="carousel-caption d-none d-md-block">
                 <h5>Signaler les cas positifs de la Covid</h5>
                 <p>Le virus se propage facilement et rapidement.</p>
             </div>
         </div>
         <div class="carousel-item justify-content-center ">
-            <img src="${pageContext.request.contextPath}/public/covid-19_molecule2.jpg" class="d-block justify-content-center h-50 w-50" alt="..." style="margin: auto;">
+            <img src="${pageContext.request.contextPath}/public/covid-19_molecule2.jpg" class="d-block justify-content-center h-80 w-50" alt="..." style="margin: auto;">
             <div class="carousel-caption d-none d-md-block">
                 <h5>Renseigner ses amis et ses activités</h5>
                 <p>Le virus peut faire du mal, protégez vos amis, votre famille et les personnes que vous croisez.</p>

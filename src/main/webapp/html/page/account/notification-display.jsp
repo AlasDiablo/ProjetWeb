@@ -86,8 +86,15 @@
             </div>
         </div>
 
-        <%} else { %>
-        <%= notification.getContent() %>
+        <%} else
+            if(mailUser.toString().equals("Attention ")) { %>
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">ATTENTION </h4>
+                    <p><%= notification.getContent() %></p>
+                    <hr>
+                    <p class="mb-0">Une personne autour de vous à été testé positif à la Covis, nous vous conseillons de vous isoller le temps de faire un test anti-génique.</p>
+                </div>
+
         <%
             }%>
     </div>

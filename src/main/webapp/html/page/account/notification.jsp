@@ -50,17 +50,42 @@
             java.util.Collections.reverse(notifs);
             for (Integer i: notifs) {
                 notification = Notification.getFirst(i);
+
+                assert notification != null;
+                StringBuilder world = new StringBuilder();
+                char test = 'a';
+                int a = 0;
+                while(test != ' '){
+                    test = notification.getContent().charAt(a);
+                    a++;
+                    world.append(test);
+                }
+                if(world.toString().equals("Attention ") && !notification.getUnRead()) { %>
+                    <a href="${pageContext.request.contextPath}<%=Registries.PATH_ACCOUNT_NOTIFICATION_DISPLAY%>?id=<%= notification.getNotificationId() %>"
+                       role="button" type="button"
+                       class="list-group-item list-group-item-action list-group-item-danger"><%= notification.getContent() %>
+                    </a>
+                <%
+                } else
+                    if(world.toString().equals("Attention ") && notification.getUnRead()) {%>
+                    <a href="${pageContext.request.contextPath}<%=Registries.PATH_ACCOUNT_NOTIFICATION_DISPLAY%>?id=<%= notification.getNotificationId() %>"
+                       role="button" type="button"
+                       class="list-group-item border-danger list-group-item-action list-group-item"><%= notification.getContent() %>
+                    </a>
+                <%
+                } else
                 if (!notification.getUnRead()) { %>
-        <a href="${pageContext.request.contextPath}<%=Registries.PATH_ACCOUNT_NOTIFICATION_DISPLAY%>?id=<%= notification.getNotificationId() %>"
-           role="button" type="button"
-           class="list-group-item list-group-item-action list-group-item-info"><%= notification.getContent() %>
-        </a>
-        <%
+                    <a href="${pageContext.request.contextPath}<%=Registries.PATH_ACCOUNT_NOTIFICATION_DISPLAY%>?id=<%= notification.getNotificationId() %>"
+                       role="button" type="button"
+                       class="list-group-item list-group-item-action list-group-item-info"><%= notification.getContent() %>
+                    </a>
+                <%
                 }else {%>
-        <a href="${pageContext.request.contextPath}<%=Registries.PATH_ACCOUNT_NOTIFICATION_DISPLAY%>?id=<%= notification.getNotificationId() %>"
-           role="button" type="button"
-           class="list-group-item list-group-item-action list-group-item"><%= notification.getContent() %>
-        </a>        <%}
+                    <a href="${pageContext.request.contextPath}<%=Registries.PATH_ACCOUNT_NOTIFICATION_DISPLAY%>?id=<%= notification.getNotificationId() %>"
+                       role="button" type="button"
+                       class="list-group-item list-group-item-action list-group-item"><%= notification.getContent() %>
+                    </a>
+                <%}
             }
         %>
     </div>

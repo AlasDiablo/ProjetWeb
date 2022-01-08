@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +23,18 @@ public class Positif extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         String sessionmail = (String) request.getSession().getAttribute("email");
+
+        //Ajout a la base de donnée que la personne est contaminée
+        try {
+            User user = User.getFirst(sessionmail);
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            assert user != null;
+            user.isContaminated(Date.valueOf(dtf.format(LocalDateTime.now())));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
 
         List<User> amis = new ArrayList<>();
         try {
@@ -31,7 +46,11 @@ public class Positif extends HttpServlet {
         Notification notif = Notification.create();
         //Création de la notification
         notif.setContent("Attention ! " +
+                request.getSession().getAttribute("name").toString() + " " +
+                request.getSession().getAttribute("lastName").toString() +
+                " (" +
                 request.getSession().getAttribute("email").toString() +
+                ") "+
                 " est positif à la covid ! Vous êtes donc cas contact.");
         for (User u: amis) {
             notif.setTarget(u);

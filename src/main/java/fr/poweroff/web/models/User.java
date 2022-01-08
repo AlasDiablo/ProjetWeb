@@ -438,6 +438,16 @@ public class User extends Model {
         }
     }
 
+    public void isContaminated(Date date) throws SQLException, IllegalStateException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "insert into contaminated(user_id , contaminated_at) VALUES(?, ?)"
+        );
+        statement.setInt(1, this.userId);
+        statement.setDate(2, date);
+        statement.executeUpdate();
+        statement.close();
+    }
+
     public List<Date> getContaminationHistory() throws SQLException {
         List<Date> history = new ArrayList<>();
         PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
