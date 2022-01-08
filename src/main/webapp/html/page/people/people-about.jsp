@@ -42,7 +42,7 @@
                 Modification
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2" style="">
-                <button class="dropdown-item text-danger" type="button" data-toggle="modal" data-target="#modalConfirm">Supprimer le compte de la personne</button>
+                <button class="dropdown-item text-danger" type="button" data-toggle="modal" data-target="#modalConfirmDelete">Supprimer le compte de la personne</button>
             </div>
         </div>
         <% }
@@ -110,11 +110,11 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="modalConfirm" tabindex="-1" aria-labelledby="modalConfirmLabel" aria-hidden="true">
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" aria-labelledby="modalConfirmDeleteLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalConfirmLabel">Confirmation</h5>
+                <h5 class="modal-title" id="modalConfirmDeleteLabel">Confirmation</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

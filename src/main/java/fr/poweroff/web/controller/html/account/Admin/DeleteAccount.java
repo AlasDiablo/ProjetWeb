@@ -19,9 +19,6 @@ public class DeleteAccount extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, @NotNull HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("text/html");
-        if (LoginChecker.performCheck(this, request, response)) {
-            this.getServletContext().getRequestDispatcher(Registries.JSP_ACCOUNT).forward(request, response);
-        }
 
         String mail = request.getParameter("mail");
         request.setAttribute("mail", mail);
@@ -33,5 +30,7 @@ public class DeleteAccount extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        response.sendRedirect(this.getServletContext().getContextPath() + Registries.PATH_INDEX);
     }
 }

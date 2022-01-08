@@ -26,6 +26,6 @@ public class People extends HttpServlet {
             e.printStackTrace();
         }
 
-        response.sendRedirect(this.getServletContext().getContextPath() + Registries.PATH_INDEX);
+        //response.sendRedirect(this.getServletContext().getContextPath() + Registries.PATH_INDEX);
     }
 }
