@@ -23,7 +23,7 @@ create table activity
     start_at    datetime,
     end_at      datetime,
     city        text,
-    contact     bool,
+    contact     bool default false,
     constraint pk_activity primary key (activity_id)
 );
 
