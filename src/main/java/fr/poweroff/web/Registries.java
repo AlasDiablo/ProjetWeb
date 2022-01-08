@@ -46,4 +46,7 @@ public class Registries {
     public static final String PATH_PEOPLE_ABOUT = "/people-about";
 
     public static final String PATH_POSITIF = "/positif";
+
+    //admin
+    public static final String PATH_DELETE_PEOPLE = "/delete-people";
 }

@@ -23,9 +23,31 @@
     assert user != null;%>
 <div class="container">
     <h1 class="display-1 text-center">Informations</h1>
-
     <div class="card">
-        <h5 class="card-header">Données personnelles</h5>
+        <h5 class="card-header">Données personnelles
+<%
+    session = request.getSession(true);
+    String mail2 = String.valueOf(session.getAttribute("email"));
+    User userSession = User.create();
+    try {
+        userSession = User.getFirst(mail2);
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    assert userSession != null;
+    if(userSession != null){
+        if(userSession.getLevel() == 1) { %>
+        <div class="dropdown float-lg-right">
+            <button type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-secondary dropdown-toggle">
+                Modification
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2" style="">
+                <button class="dropdown-item text-danger" type="button" data-toggle="modal" data-target="#modalConfirm">Supprimer le compte de la personne</button>
+            </div>
+        </div>
+        <% }
+    }%>
+        </h5>
         <div class="card-body">
             <p>Prénom : <b><%= user.getFirstname() %>
             </b></p>
@@ -83,6 +105,27 @@
                         <%}%>
                 <% } %>
             <!--<a href="people-pers" class="btn btn-success">Envoyer demande d'ami</a>-->
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalConfirm" tabindex="-1" aria-labelledby="modalConfirmLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalConfirmLabel">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Voulez-vous vraiment supprimer cette personne ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">NON</button>
+                <a type="button" class="btn btn-success" href="${pageContext.request.contextPath}<%=Registries.PATH_DELETE_PEOPLE%>?mail=<%= user.getEmail() %>">OUI</a>
+            </div>
         </div>
     </div>
 </div>

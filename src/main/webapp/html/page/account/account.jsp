@@ -84,6 +84,31 @@
                 </div>
             </div>
         </div>
+        <% session = request.getSession(true);
+            String mail = String.valueOf(session.getAttribute("email"));
+
+            //Recup user
+            User userId = null;
+            try {
+                //Verfication de l'identifiant et du mot de passe
+                userId = User.getFirst(mail);
+                assert userId != null;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            assert userId != null;
+            if(userId.getLevel() == 1){ %>
+                <div class="col-sm-6 p-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Informations People</h5>
+                            <p class="card-text">Visualisation des informations</p>
+                            <a href="#" class="btn btn-info">Acceder</a>
+                        </div>
+                    </div>
+                </div>
+        <% } %>
     </div>
 </div>
 <script>
