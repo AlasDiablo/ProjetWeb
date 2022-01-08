@@ -96,7 +96,14 @@
                 </div>
 
         <%
-            }%>
+            } else { %>
+        <div class="alert alert-secondary " role="alert">
+            <h4 class="alert-heading">Ohhh....</h4>
+            <p><%= notification.getContent() %></p>
+            <hr>
+            <p class="mb-0">Nous sommes triste de vous annoncer cette nouvelle.</p>
+        </div>
+        <% } %>
     </div>
 </div>
 <script>
