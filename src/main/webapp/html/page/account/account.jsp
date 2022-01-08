@@ -98,16 +98,26 @@
                 e.printStackTrace();
             }
             assert userId != null;
-            if(userId.getLevel() == 1){ %>
-                <div class="col-sm-6 p-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Informations People</h5>
-                            <p class="card-text">Visualisation des informations</p>
-                            <a href="#" class="btn btn-info">Acceder</a>
-                        </div>
-                    </div>
+            if (userId.getLevel() == 1) { %>
+        <div class="col-sm-6 p-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Informations People</h5>
+                    <p class="card-text">Visualisation des informations</p>
+                    <a href="#" class="btn btn-info">Acceder</a>
                 </div>
+            </div>
+        </div>
+        <div class="col-sm-6 p-2">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Liste des activités</h5>
+                    <p class="card-text">Visualisation de tous les activités disponible (option de suppression)</p>
+                    <a href="${pageContext.request.contextPath}<%=Registries.PATH_ADMIN_ACTIVITY%>"
+                       class="btn btn-info">Acceder</a>
+                </div>
+            </div>
+        </div>
         <% } %>
     </div>
 </div>

@@ -31,4 +31,25 @@ public class LoginChecker {
         }
         return true;
     }
+
+    public static boolean performAdminCheck(@NotNull HttpServlet servlet, @NotNull HttpServletRequest req, @NotNull HttpServletResponse resp)
+            throws IOException, ServletException {
+        HttpSession session = req.getSession(false);
+        if (session == null) {
+            servlet.getServletContext().getRequestDispatcher(Registries.JSP_ERROR_401).forward(req, resp);
+            return false;
+        }
+        User user;
+        try {
+            user = User.getFirst(session.getAttribute("email").toString());
+            Objects.requireNonNull(user);
+            if (user.getLevel() != 1) {
+                throw new IllegalStateException();
+            }
+        } catch (SQLException | NullPointerException | IllegalStateException e) {
+            servlet.getServletContext().getRequestDispatcher(Registries.JSP_ERROR_401).forward(req, resp);
+            return false;
+        }
+        return true;
+    }
 }

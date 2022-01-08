@@ -1,10 +1,7 @@
 package fr.poweroff.web.controller.api.activity;
 
 import com.google.common.net.MediaType;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import fr.poweroff.web.Registries;
 import fr.poweroff.web.models.Activity;
 import fr.poweroff.web.models.Place;
@@ -55,18 +52,35 @@ public class ActivityServlet extends HttpServlet {
         }
 
         try {
-            List<Activity> activities = user.getActivities();
-            DateFormat     formatter  = new SimpleDateFormat("yyyy-MM-dd");
-            Date           start      = formatter.parse(req.getParameter("start").substring(0, 10));
-            Date           end        = formatter.parse(req.getParameter("end").substring(0, 10));
+            List<Activity> activities;
+            if (user.getLevel() == 1 && req.getParameter("all") != null) {
+                activities = Activity.getAll();
+            } else {
+                activities = user.getActivities();
+            }
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date       start     = formatter.parse(req.getParameter("start").substring(0, 10));
+            Date       end       = formatter.parse(req.getParameter("end").substring(0, 10));
             List<Activity> filteredActivities = activities.stream().filter(
                     activity -> activity.getStartAt().after(start) && activity.getEndAt().before(end)
             ).collect(Collectors.toList());
             JsonArray output = new JsonArray();
+            Gson      gson   = new GsonBuilder().create();
             for (Activity activity: filteredActivities) {
                 JsonObject  a     = new JsonObject();
                 JsonElement title = Place.reverse(JsonParser.parseString(activity.getCity()).getAsJsonArray());
-                a.addProperty("title", title.getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString());
+
+                if (user.getLevel() == 1 && req.getParameter("all") != null) {
+                    a.addProperty("id", activity.getActivityId());
+                    User owner = activity.getOwner();
+                    a.addProperty("title", owner.getUserId() + " : " + title.getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString());
+                    JsonObject userData = gson.toJsonTree(owner).getAsJsonObject();
+                    userData.remove("passwordHash");
+                    userData.remove("level");
+                    a.add("user", userData);
+                } else {
+                    a.addProperty("title", title.getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString());
+                }
                 a.addProperty("start", activity.getStartAt().toString());
                 a.addProperty("end", activity.getEndAt().toString());
                 if (activity.getContact()) {

@@ -2,10 +2,11 @@ package fr.poweroff.web.models;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public abstract class Model {
+public abstract class Model implements Serializable {
     protected abstract void checkIntegrity(boolean isSave) throws IllegalStateException;
 
     protected abstract void setValueToQuery(@NotNull PreparedStatement statement) throws SQLException;

@@ -69,8 +69,29 @@ public class Activity extends Model {
                     result.getBoolean("contact")
             );
         }
+        statement.close();
         result.close();
         return activity;
+    }
+
+    public static @NotNull List<Activity> getAll() throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "select * from activity"
+        );
+        ResultSet      result     = statement.executeQuery();
+        List<Activity> activities = new ArrayList<>();
+        while (result.next()) {
+            activities.add(new Activity(
+                    result.getInt("activity_id"),
+                    result.getTimestamp("start_at"),
+                    result.getTimestamp("end_at"),
+                    result.getString("city"),
+                    result.getBoolean("contact")
+            ));
+        }
+        statement.close();
+        result.close();
+        return activities;
     }
 
     public static List<User> setContact(Date date, String address) throws SQLException {

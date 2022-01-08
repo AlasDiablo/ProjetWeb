@@ -1,4 +1,4 @@
-package fr.poweroff.web.controller.html.account.Admin;
+package fr.poweroff.web.controller.html.account.admin;
 
 import fr.poweroff.web.Registries;
 import fr.poweroff.web.models.User;
@@ -18,7 +18,7 @@ import java.sql.SQLException;
 public class DeleteAccount extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, @NotNull HttpServletResponse response) throws IOException, ServletException {
-        if (LoginChecker.performCheck(this, request, response)) {
+        if (LoginChecker.performAdminCheck(this, request, response)) {
             String mail = request.getParameter("mail");
             request.setAttribute("mail", mail);
 
