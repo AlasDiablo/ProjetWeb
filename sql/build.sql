@@ -1,12 +1,13 @@
-create table user(
-                     user_id       int auto_increment,
-                     firstname     text,
-                     lastname      text,
-                     email         varchar(256),
-                     password_hash text,
-                     born          date,
-                     level         int,
-                     constraint pk_user_id primary key (user_id)
+create table user
+(
+    user_id       int auto_increment,
+    firstname     text,
+    lastname      text,
+    email         varchar(256),
+    password_hash text,
+    born          date,
+    level         int,
+    constraint pk_user_id primary key (user_id)
 );
 
 create table contaminated
@@ -16,12 +17,14 @@ create table contaminated
     constraint fk_contaminated foreign key (user_id) references user (user_id) on delete cascade
 );
 
-create table activity(
-                         activity_id int auto_increment,
-                         start_at    datetime,
-                         end_at      datetime,
-                         city        text,
-                         constraint pk_activity primary key (activity_id)
+create table activity
+(
+    activity_id int auto_increment,
+    start_at    datetime,
+    end_at      datetime,
+    city        text,
+    contact     bool,
+    constraint pk_activity primary key (activity_id)
 );
 
 create table user_activity
@@ -41,11 +44,12 @@ create table friends
     constraint fk_friend_2 foreign key (user_2) references user (user_id) on delete cascade
 );
 
-create table notification(
-                             notification_id int auto_increment,
-                             content         text,
-                             un_read         bool,
-                             constraint pk_notification_id primary key (notification_id)
+create table notification
+(
+    notification_id int auto_increment,
+    content         text,
+    un_read         bool,
+    constraint pk_notification_id primary key (notification_id)
 );
 
 create table user_notification
