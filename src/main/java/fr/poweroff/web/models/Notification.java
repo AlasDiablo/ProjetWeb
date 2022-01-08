@@ -136,6 +136,9 @@ public class Notification extends Model {
         ResultSet result = statementIdGetter.executeQuery();
         if (result.next()) {
             this.notificationId = result.getInt("notification_id");
+            while (result.next()) {
+                this.notificationId = result.getInt("notification_id");
+            }
         } else {
             throw new IllegalStateException("The current notification have not been save properly");
         }
