@@ -82,7 +82,7 @@ public class PeoplePers extends HttpServlet {
 
             //Enregistrement de la notification
             try {
-                notifi.saveAmi();
+                notifi.save();
             } catch (SQLException | IllegalStateException e) {
                 e.printStackTrace();
             }
@@ -103,7 +103,7 @@ public class PeoplePers extends HttpServlet {
 
         //Enregistrement de la notification
         try {
-            notif.saveAmi();
+            notif.save();
         } catch (SQLException | IllegalStateException e) {
             e.printStackTrace();
         }

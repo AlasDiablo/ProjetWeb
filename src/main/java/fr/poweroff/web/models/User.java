@@ -4,10 +4,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -300,11 +297,8 @@ public class User extends Model {
         }
     }
 
-    public List<Activity> getActivities() throws SQLException {
-        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
-                "select activity.activity_id as activity_id, start_at, end_at, city from activity inner join user_activity on activity.activity_id = user_activity.activity_id where user_id = ?"
-        );
-        statement.setInt(1, this.userId);
+    @NotNull
+    private List<Activity> readActivities(PreparedStatement statement) throws SQLException {
         ResultSet      result     = statement.executeQuery();
         List<Activity> activities = new ArrayList<>();
         while (result.next()) {
@@ -312,12 +306,31 @@ public class User extends Model {
                     result.getInt("activity_id"),
                     result.getTimestamp("start_at"),
                     result.getTimestamp("end_at"),
-                    result.getString("city")
+                    result.getString("city"),
+                    result.getBoolean("contact")
             ));
         }
         statement.close();
         result.close();
         return activities;
+    }
+
+    public List<Activity> getActivities(Timestamp date) throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "select activity.activity_id as activity_id, start_at, end_at, city, contact from activity inner join user_activity on activity.activity_id = user_activity.activity_id where user_id = ? and ? >= activity.start_at and ? <= activity.end_at"
+        );
+        statement.setInt(1, this.userId);
+        statement.setTimestamp(2, date);
+        statement.setTimestamp(3, date);
+        return readActivities(statement);
+    }
+
+    public List<Activity> getActivities() throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "select activity.activity_id as activity_id, start_at, end_at, city, contact from activity inner join user_activity on activity.activity_id = user_activity.activity_id where user_id = ?"
+        );
+        statement.setInt(1, this.userId);
+        return readActivities(statement);
     }
 
     public List<User> getFriends() throws SQLException {

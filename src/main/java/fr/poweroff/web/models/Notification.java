@@ -120,33 +120,6 @@ public class Notification extends Model {
         this.target = target;
     }
 
-
-    public void saveAmi() throws SQLException, IllegalStateException {
-        super.save();
-        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
-                "insert into notification(content, un_read) value (?, ?)"
-        );
-        this.setValueToQuery(statement);
-        statement.executeUpdate();
-        statement.close();
-        PreparedStatement statementId = DataBase.CONNECTION.prepareStatement(
-                "select notification_id from notification"
-        );
-        ResultSet result   = statementId.executeQuery();
-        Integer   notif_id = 0;
-        while (result.next()) {
-            notif_id = result.getInt("notification_id");
-        }
-        statementId.close();
-        PreparedStatement statementJoin = DataBase.CONNECTION.prepareStatement(
-                "insert into user_notification(notification_id, user_id) value (?, ?)"
-        );
-        statementJoin.setInt(1, notif_id);
-        statementJoin.setInt(2, this.target.getUserId());
-        statementJoin.executeUpdate();
-        statementJoin.close();
-    }
-
     @Override
     public void save() throws SQLException, IllegalStateException {
         super.save();
@@ -162,9 +135,9 @@ public class Notification extends Model {
         this.setValueToQuery(statementIdGetter);
         ResultSet result = statementIdGetter.executeQuery();
         if (result.next()) {
-            this.notificationId = result.getInt("activity_id");
+            this.notificationId = result.getInt("notification_id");
         } else {
-            throw new IllegalStateException("The current activity have not been save properly");
+            throw new IllegalStateException("The current notification have not been save properly");
         }
         statementIdGetter.close();
         PreparedStatement statementJoin = DataBase.CONNECTION.prepareStatement(

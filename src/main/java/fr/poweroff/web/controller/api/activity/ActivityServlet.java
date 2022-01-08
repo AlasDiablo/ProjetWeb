@@ -69,6 +69,10 @@ public class ActivityServlet extends HttpServlet {
                 a.addProperty("title", title.getAsJsonArray().get(0).getAsJsonObject().get("name").getAsString());
                 a.addProperty("start", activity.getStartAt().toString());
                 a.addProperty("end", activity.getEndAt().toString());
+                if (activity.getContact()) {
+                    a.addProperty("borderColor", "#FF0000");
+                    a.addProperty("backgroundColor", "#FF8585");
+                }
                 output.add(a);
             }
             resp.getWriter().println(output);

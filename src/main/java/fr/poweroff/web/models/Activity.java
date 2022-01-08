@@ -8,7 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Activity extends Model {
 
@@ -17,12 +19,14 @@ public class Activity extends Model {
     private Date    endAt;
     private String  city;
     private User    owner;
+    private Boolean contact;
 
-    Activity(Integer activityId, Date startAt, Date endAt, String city) {
+    Activity(Integer activityId, Date startAt, Date endAt, String city, Boolean contact) {
         this.activityId = activityId;
         this.startAt    = startAt;
         this.endAt      = endAt;
         this.city       = city;
+        this.contact    = contact;
     }
 
     private Activity(User owner) {
@@ -30,6 +34,7 @@ public class Activity extends Model {
         this.startAt    = null;
         this.endAt      = null;
         this.city       = null;
+        this.contact    = null;
         this.owner      = owner;
     }
 
@@ -60,11 +65,38 @@ public class Activity extends Model {
                     activityId,
                     result.getTimestamp("start_at"),
                     result.getTimestamp("end_at"),
-                    result.getString("city")
+                    result.getString("city"),
+                    result.getBoolean("contact")
             );
         }
         result.close();
         return activity;
+    }
+
+    public static List<User> setContact(Date date, String address) throws SQLException {
+        PreparedStatement statement = DataBase.CONNECTION.prepareStatement(
+                "update activity set contact = true where activity.city = ? and ? >= activity.start_at and ? <= activity.end_at"
+        );
+        statement.setString(1, address);
+        statement.setTimestamp(2, new Timestamp(date.getTime()));
+        statement.setTimestamp(3, new Timestamp(date.getTime()));
+        statement.executeUpdate();
+        statement.close();
+
+        PreparedStatement statementGetter = DataBase.CONNECTION.prepareStatement(
+                "select user_id from user_activity inner join activity on user_activity.activity_id = activity.activity_id where activity.city = ? and ? >= activity.start_at and ? <= activity.end_at"
+        );
+        statementGetter.setString(1, address);
+        statementGetter.setTimestamp(2, new Timestamp(date.getTime()));
+        statementGetter.setTimestamp(3, new Timestamp(date.getTime()));
+        ResultSet  result = statementGetter.executeQuery();
+        List<User> users  = new ArrayList<>();
+        while (result.next()) {
+            users.add(User.getFirst(result.getInt("user_id")));
+        }
+        statement.close();
+        result.close();
+        return users;
     }
 
     @Override
@@ -195,5 +227,13 @@ public class Activity extends Model {
 
     public void setCity(@NotNull String city) {
         this.city = city;
+    }
+
+    public Boolean getContact() {
+        return contact;
+    }
+
+    public void setContact(Boolean contact) {
+        this.contact = contact;
     }
 }
