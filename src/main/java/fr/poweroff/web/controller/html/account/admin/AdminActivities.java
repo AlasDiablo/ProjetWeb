@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
-@WebServlet(name = "Activity - My activity", value = Registries.PATH_ADMIN_ACTIVITY)
+@WebServlet(name = "Activity - List of all activities", value = Registries.PATH_ADMIN_ACTIVITY)
 public class AdminActivities extends HttpServlet {
 
     @Override
