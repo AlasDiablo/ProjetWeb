@@ -27,13 +27,18 @@
             assert user != null;
 
             for (User u: user) {
-            if (!u.getEmail().equals(sessionmail)) {%>
-        <a href="${pageContext.request.contextPath}<%=Registries.PATH_PEOPLE_ABOUT%>?mail=<%= u.getEmail() %>"
-           role="button" type="button"
-           class="list-group-item list-group-item-action"><%= u.getFirstname() %> <%= u.getLastname() %> <%= u.getEmail() %>
-        </a>
-        <% }
-        } %>
+                if (!u.getEmail().equals(sessionmail)) {%>
+                    <a href="${pageContext.request.contextPath}<%=Registries.PATH_PEOPLE_ABOUT%>?mail=<%= u.getEmail() %>"
+                       role="button" type="button"
+                       class="list-group-item list-group-item-action"><%= u.getFirstname() %> <%= u.getLastname() %> <%= u.getEmail() %>
+                    </a>
+                <% }
+            }
+            if(user.size() == 0 ) { %>
+                <div class="alert alert-info" role="alert">
+                    Vous n'avez pas encore d'amis.
+                </div>
+             <%   }%>
 
         <!--<% %>
         <button type="button" class="list-group-item list-group-item-action"></button>

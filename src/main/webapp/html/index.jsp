@@ -49,9 +49,9 @@
         </div>
         <div class="card-body">
             <blockquote class="blockquote mb-0">
-                <p>Afin de limiter au mieux les risques de contamination, nous devons suivre les gestes barrières. Cependant si nous sommes diagnostiqué positif
-                au covid, nous vous recommandons de renseigner celà sur ce site. Nous vous recommandons également de renseigner vos activités.</p>
-                <p class="text-success">Permet de prévenir vos amis et les personnes présentes au même endroit qu'elles sont cas contact.</p>
+                <p>Afin de limiter au mieux les risques de contamination, nous devons suivre les gestes barrières. Cependant, si vous êtes diagnostiqués positif
+                à la covid, nous vous recommandons de renseigner cela sur ce site. Nous vous recommandons également de renseigner vos activités.</p>
+                <p class="text-success">Permet de prévenir vos amis et les personnes présentes au même endroit. Elles seront déclarées cas contact.</p>
             </blockquote>
         </div>
     </div>

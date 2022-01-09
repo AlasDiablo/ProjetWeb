@@ -14,7 +14,7 @@
         <div class="col-sm p-2">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Historique des contamination</h5>
+                    <h5 class="card-title">Historique des contaminations</h5>
                     <%@ include file="/html/components/chart/history.jsp" %>
                 </div>
             </div>
@@ -23,7 +23,7 @@
         <div class="col-sm p-2">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Carte des contamination</h5>
+                    <h5 class="card-title">Carte des contaminations</h5>
                     <%@ include file="/html/components/chart/map.jsp" %>
                 </div>
             </div>

@@ -50,7 +50,7 @@
                     },
                     size: {
                         field: 'count',
-                        title: 'Contamination',
+                        title: 'Contaminations',
                         type: 'quantitative'
                     },
                     color: {

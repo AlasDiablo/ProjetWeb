@@ -86,7 +86,11 @@
                        class="list-group-item list-group-item-action list-group-item"><%= notification.getContent() %>
                     </a>
                 <%}
-            }
+            } if(notifs.size() == 0 ) { %>
+        <div class="alert alert-info" role="alert">
+            Vous n'avez pas encore de notifications.
+        </div>
+        <%   }
         %>
     </div>
 </div>
