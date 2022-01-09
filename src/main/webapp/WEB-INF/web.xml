@@ -18,10 +18,10 @@
         <location>/html/error/404.jsp</location> <!-- we hide the 403 error by a 404 error -->
     </error-page>
 
-    <!--    <error-page>-->
-    <!--        <error-code>500</error-code>-->
-    <!--        <location>/html/error/500.jsp</location>-->
-    <!--    </error-page>-->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/html/error/500.jsp</location>
+    </error-page>
 
     <security-constraint>
         <web-resource-collection>
